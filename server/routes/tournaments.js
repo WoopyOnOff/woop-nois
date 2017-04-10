@@ -1,17 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-
+const pkgJson = require('../../package.json');
 
 router.use(function(req, res, next) {
-  console.log('Something is happening : ' +req);
+  console.log('Request on /api/tournaments');
   next();
 })
-
-/* GET api listing. */
-router.get('/', (req, res) => {
-  res.send('api works');
-});
 
 // define model =================
 var Tournament     = require('../../src/app/models/tournament');
@@ -20,7 +15,7 @@ var Tournament     = require('../../src/app/models/tournament');
 
 // api ---------------------------------------------------------------------
 // get all tournamenets
-router.route('/tournaments')
+router.route('/')
 .get(function (req, res) {
   console.log('SERVER : Get all tournaments');
   // use mongoose to get all tournaments in the database
@@ -49,7 +44,7 @@ router.route('/tournaments')
   });
 });
 
-router.route('/tournaments/:tournament_id')
+router.route('/:tournament_id')
 .get(function(req, res) {
   console.log('SERVER : Get a tournament');
   Tournament.findById(req.params.tournament_id, function (err, tournament) {

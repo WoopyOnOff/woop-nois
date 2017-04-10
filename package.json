@@ -1,6 +1,6 @@
 {
   "name": "woopy-nois",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -21,7 +21,6 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
     "body-parser": "^1.17.1",
-    "bootstrap": "3",
     "core-js": "^2.4.1",
     "express": "^4.15.2",
     "mongoose": "^4.9.4",

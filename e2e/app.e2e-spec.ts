@@ -7,8 +7,8 @@ describe('woopy-poc App', () => {
     page = new WoopyPocPage();
   });
 
-  it('should display message saying app works', () => {
+  it('should display message saying Gestion des tournois !', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+    expect(page.getParagraphText()).toEqual('Gestion des tournois !');
   });
 });

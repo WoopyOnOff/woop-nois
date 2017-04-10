@@ -4,9 +4,11 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const router = express.Router();
 
 // Get our API routes
-const api = require('./server/routes/api');
+const tournaments = require('./server/routes/tournaments');
+const pools = require('./server/routes/pools');
 
 const app = express();
 
@@ -20,11 +22,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Set our api routes
-app.use('/api', api);
+app.use('/api/tournaments', tournaments);
+app.use('/api/pools', pools);
 
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
+});
+
+/* GET api listing. */
+router.get('/', (req, res) => {
+  res.send('api works ! Version '+pkgJson.version);
 });
 
 /**
