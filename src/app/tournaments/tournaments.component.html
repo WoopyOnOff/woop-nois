@@ -1,0 +1,18 @@
+<header>
+  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  <span class="glyphiconclass">Tournoi</span>  
+</header>
+
+<div class="container">
+  <div class="row" *ngFor="let tournament of tournaments">
+    <div class="card card-block">
+      <h4 class="card-title">{{ tournament.label }}</h4>
+      <p class="card-text">Type de tournoi : {{tournament.gameType}}<br />
+        Date du tournoi : {{tournament.date}}<br />
+        Nombre d'équipes par poule : {{tournament.nbTeamsPerPool}}<br />
+      </p>
+      <a href="" (click)="onShow(tournament._id); false" class="card-link">Edition du tournoi</a>
+      <a href="" (click)="onDelete(tournament._id); false" class="card-link">Suppression du tournoi</a>
+    </div>
+  </div>
+</div>

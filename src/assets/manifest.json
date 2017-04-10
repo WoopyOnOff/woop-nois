@@ -1,0 +1,18 @@
+{
+  "manifest_version": "2",
+  "name": "Organisation des tournois FLIP",
+  "short_name": "Tournois FLIP",
+  "version": "1",
+  "default_locale": "fr",
+  "description": "Permet de suivre les tournois du FLIP",
+  "icons": [{
+        "src": "/imgs/favicon.png",
+        "sizes": "32x32",
+        "type": "image/png"
+      }],
+  "theme_color": "#000000",
+  "background_color": "#FFFFFF",
+  "author": "",
+  "display": "standalone",
+  "start_url": "/"
+}
