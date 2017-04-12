@@ -33,4 +33,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Usefull doc 
 [Authentication example](https://auth0.com/blog/angular-2-authentication/) but not free
 
+[Angular 2 JWT Authentication Example & Tutorial](http://jasonwatmore.com/post/2016/08/16/angular-2-jwt-authentication-example-tutorial)
+
 [Official Angular Doc](https://angular.io/docs/ts/latest/guide/)
