@@ -10,7 +10,7 @@ router.use(function(req, res, next) {
 
   // decode token
   if (token) {
-    console.log('Token : ' + token);
+
     // verifies secret and checks exp
     jwt.verify(token, secretIdToken, function(err, decoded) {
       if (err) {
