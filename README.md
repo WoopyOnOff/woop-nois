@@ -35,6 +35,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 [Angular 2 JWT Authentication Example & Tutorial](http://jasonwatmore.com/post/2016/08/16/angular-2-jwt-authentication-example-tutorial)
 
+[Manage dev prod on NodeJS](http://stackoverflow.com/questions/10714315/node-js-express-and-using-development-versus-production-in-app-configure)
+
 [JWT on node](https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens)
 
 [Official Angular Doc](https://angular.io/docs/ts/latest/guide/)
