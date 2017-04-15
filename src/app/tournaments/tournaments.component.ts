@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TournamentsService } from './tournaments.service';
+import { User } from '../models/userClient';
 
 @Component({
   selector: 'app-tournaments',
@@ -8,9 +9,12 @@ import { TournamentsService } from './tournaments.service';
 })
 export class TournamentsComponent implements OnInit {
 
+  currentUser: User;
   tournaments: any = [];
 
-  constructor(private tournamentsService: TournamentsService) { }
+  constructor(private tournamentsService: TournamentsService) {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  }
 
   ngOnInit() {
     // Retrieve posts from the API

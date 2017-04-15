@@ -6,7 +6,7 @@ const sha256 = require('sha256');
 var User = require('../../../src/app/models/user');
 
 router.use(function(req, res, next) {
-  console.log('Something is happening : ' +req);
+  console.log('Something is happening');
   next();
 })
 
@@ -16,7 +16,7 @@ router.route('/')
     var password = req.body.pwd;
 
     User.findOne({
-      name: req.body.name
+      login: req.body.login
     },function(err, user) {
 
       if ( err) throw err;
@@ -24,23 +24,23 @@ router.route('/')
       if (!user) {
         res.json({ success: false, message: 'Authentication failed. User not found.' });
       } else if (user) {
-        console.log(user.name);
-        console.log(user.password);
-        console.log(sha256(password));
         if ( user.password == sha256(password)) {
 
-            var token = jwt.sign({ username : user.name}, secretIdToken, {
+            var token = jwt.sign({ username : user.login}, secretIdToken, {
                   expiresIn: 1440 // expires in 24 hours
                 });
 
             res.json({
                 success: true,
-                message: 'Enjoy your token!',
+                login: user.login,
+                firstname: user.firstname,
+                lastname: user.lastname,
+                admin: user.admin,
                 token: token
               });
          }
          else {
-           res.json({ result : user, success: false, message: 'Authentication failed.' });
+           res.json({ success: false, message: 'Authentication failed.' });
          }
        }
    })

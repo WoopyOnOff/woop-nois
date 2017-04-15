@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 
@@ -7,6 +7,8 @@ import 'rxjs/add/operator/map';
 export class TournamentsService {
 
   constructor(private http: Http) { }
+
+  ///// PUBLIC API /////
 
   // Get all tournaments from the API
   getAllTournaments() {
@@ -21,10 +23,23 @@ export class TournamentsService {
       .map(res => res.json());
   }
 
+  ///// PROTECTED API /////
+
   deleteTournament(id: String) {
     console.log('TournamentsService::deleteTournament : ' + id);
-    return this.http.delete('/api/tournaments/' + id)
+
+    return this.http.delete('/api/tournaments/' + id, this.jwt())
       .map(res => res.json());
 
   }
+
+  private jwt() {
+        // create authorization header with jwt token
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser && currentUser.token) {
+            let headers = new Headers({ 'x-access-token': currentUser.token });
+            return new RequestOptions({ headers: headers });
+        }
+
+    }
 }

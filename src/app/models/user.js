@@ -4,14 +4,18 @@ var Schema = mongoose.Schema;
 
 // set up a mongoose model and pass it using module.exports
 module.exports = mongoose.model('User', new Schema({
-    name: String,
+    login: String,
     password: String, // SHA256
+    firstname: String,
+    lastname: String,
     admin: Boolean
 }));
 
 // Command for add user in db
 // db.user.insert({
-//     name : 'username',
+//     login : 'username',
 //     password: '',
+//     firstname: '',
+//     lastname: '',
 //     admin: true
 // });

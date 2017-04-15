@@ -1,6 +1,10 @@
-<header>
+<p id="logout"*ngIf="currentUser"><a [routerLink]="['/admin']">Logout</a></p>
+
+<h2 *ngIf="currentUser">Bienvenue {{currentUser.firstname}} !</h2>
+
+<header *ngIf="currentUser">
   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-  <span class="glyphiconclass">Tournoi</span>  
+  <span class="glyphiconclass">Tournoi</span>
 </header>
 
 <div class="container">
@@ -12,7 +16,7 @@
         Nombre d'équipes par poule : {{tournament.nbTeamsPerPool}}<br />
       </p>
       <a href="" (click)="onShow(tournament._id); false" class="card-link">Edition du tournoi</a>
-      <a href="" (click)="onDelete(tournament._id); false" class="card-link">Suppression du tournoi</a>
+      <a *ngIf="currentUser" href="" (click)="onDelete(tournament._id); false" class="card-link">Suppression du tournoi</a>
     </div>
   </div>
 </div>

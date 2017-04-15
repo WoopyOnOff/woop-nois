@@ -7,7 +7,6 @@ import { environment } from '../environments/environment';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Gestion des tournois !';
   environmentName = environment.environmentName;
   date = new Date();
 }
