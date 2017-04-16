@@ -58,7 +58,7 @@ router.route('/')
   promise.then( function (tournament) {
     res.json({ message: 'Tournament created!' , object : tournament});
   });
-}));
+});
 
 router.route('/:tournament_id')
 
