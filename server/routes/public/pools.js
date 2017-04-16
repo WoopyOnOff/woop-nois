@@ -3,20 +3,41 @@ const mongoose = require('mongoose');
 const router = express.Router();
 
 router.use(function(req, res, next) {
-  console.log('Request on /api/pools');
+  console.log('Request on /api/pool');
   next();
 })
 
 // define model =================
+var Pool     = require('../../../src/app/models/pool');
 
 // routes ======================================================================
 
-// api/pools--------------------------------------------------------------------
-// get all Pools
+// api ---------------------------------------------------------------------
+// get all pools
 router.route('/')
 .get(function (req, res) {
-  console.log('SERVER : Get all Pools');
+  console.log('SERVER : Get all pools');
+  // use mongoose to get all pools in the database
+  Pool.find(function(err, pools) {
 
+    // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+    if (err)
+    res.send(err)
+
+    res.json(pools); // return all pools in JSON format
+  });
+});
+
+router.route('/:pool_id')
+.get(function(req, res) {
+  console.log('SERVER : Get a pool');
+  Pool.findById(req.params.pool_id, function (err, pool) {
+    if ( err ) {
+      console.log('error while getting pool with id ');
+      res.send(err);
+    }
+    res.json(pool);
+  })
 });
 
 module.exports = router;
