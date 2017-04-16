@@ -12,7 +12,7 @@ module.exports = mongoose.model('User', new Schema({
 }));
 
 // Command for add user in db
-// db.user.insert({
+// db.users.insert({
 //     login : 'username',
 //     password: '',
 //     firstname: '',
