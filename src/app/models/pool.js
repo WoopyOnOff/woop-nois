@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var SchemaPool = new Schema({  
-  tournamentId : ObjectId, //id_tournoi
+  tournamentId : Schema.Types.ObjectId, //id_tournoi
   pool : String, // lettre de la poule
   team : Array, // Equipe
   scores : Array, // liste des scores
