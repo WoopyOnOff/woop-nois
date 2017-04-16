@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { User } from '../models/userClient';
+
 import 'rxjs/add/operator/map'
 
 @Injectable()
@@ -15,7 +17,7 @@ export class AuthenticationService {
               { headers: header })
             .map((response: Response) => {
                 // login successful if there's a jwt token in the response
-                let user = response.json();
+                let user: User = response.json();
 
                 if (user && user.token) {
                     console.log('Connection OK!');

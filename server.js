@@ -19,6 +19,7 @@ const privateTournaments = require('./server/routes/secured/tournaments');
 
 const app = express();
 
+secretIdToken = config.secret;
 databaseURL = config.databaseURL;
 
 mongoose.connect(databaseURL);     // connect to mongoDB database
