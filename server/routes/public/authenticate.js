@@ -4,6 +4,7 @@ const router = express.Router();
 const jwt    = require('jsonwebtoken');
 const sha256 = require('sha256');
 var User = require('../../../src/app/models/user');
+const config = require('../../config');
 
 router.use(function(req, res, next) {
   console.log('Something is happening');
@@ -26,7 +27,7 @@ router.route('/')
       } else if (user) {
         if ( user.password == sha256(password)) {
 
-            var token = jwt.sign({ username : user.login}, secretIdToken, {
+            var token = jwt.sign({ username : user.login}, config.secret, {
                   expiresIn: 1440 // expires in 24 hours
                 });
 

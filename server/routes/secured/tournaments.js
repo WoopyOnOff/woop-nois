@@ -58,86 +58,54 @@ router.route('/')
   promise.then( function (tournament) {
     res.json({ message: 'Tournament created!' , object : tournament});
   });
-})
-
-.put(function(req, res) {
-  console.log('SERVER : Update a tournament');
-  Tournament.findById(req.params.tournament_id)
-  .then( function (tournament) {
-
-    tournament.label = req.body.label;
-
-    // save the bear
-    tournament.save(function(err) {
-      if (err)
-      res.send(err);
-
-      res.json({ message: 'Tournament updated' });
-    });
-
-  });
-
-})
-
-.delete(function (req, res) {
-  console.log('SERVER: Delete tournament with id : ' + req.params.tournament_id);
-  Tournament.remove({
-    _id: req.params.tournament_id
-  }, function(err, tournament) {
-    if (err) {
-      console.log('SERVER: Error : ' + err);
-      res.send(err);
-    }
-
-    if ( tournament.result.n == 0) {
-      res.json({ message : 'Tournament doesn\'t exist'})
-    }
-    else {
-      res.json({ message: 'Tournament successfully deleted' });
-    }
-
-  });
-});
+}));
 
 router.route('/:tournament_id')
 
-.put(function(req, res) {
-  console.log('SERVER : Update a tournament');
-  Tournament.findById(req.params.tournament_id)
-  .then( function (tournament) {
+  .put(function(req, res) {
+    console.log('SERVER : Update a tournament');
+    Tournament.findById(req.params.tournament_id)
+    .then( function (tournament) {
 
-    tournament.label = req.body.label;
+      //TODO Complete
+      if (req.body.label != null) {
+        tournament.label = req.body.label;
+      }
+      if (req.body.date != null) {
+        tournament.date = req.body.date;
+      }
+      // etc ...
 
-    // save the bear
-    tournament.save(function(err) {
-      if (err)
-      res.send(err);
+      // save the tournament
+      tournament.save(function(err) {
+        if (err)
+        res.send(err);
 
-      res.json({ message: 'Tournament updated' });
+        res.json({ message: 'Tournament updated' });
+      });
+
     });
 
-  });
+  })
 
-})
+  .delete(function (req, res) {
+    console.log('SERVER: Delete tournament with id : ' + req.params.tournament_id);
+    Tournament.remove({
+      _id: req.params.tournament_id
+    }, function(err, tournament) {
+      if (err) {
+        console.log('SERVER: Error : ' + err);
+        res.send(err);
+      }
 
-.delete(function (req, res) {
-  console.log('SERVER: Delete tournament with id : ' + req.params.tournament_id);
-  Tournament.remove({
-    _id: req.params.tournament_id
-  }, function(err, tournament) {
-    if (err) {
-      console.log('SERVER: Error : ' + err);
-      res.send(err);
-    }
+      if ( tournament.result.n == 0) {
+        res.json({ message : 'Tournament doesn\'t exist'})
+      }
+      else {
+        res.json({ message: 'Tournament successfully deleted' });
+      }
 
-    if ( tournament.result.n == 0) {
-      res.json({ message : 'Tournament doesn\'t exist'})
-    }
-    else {
-      res.json({ message: 'Tournament successfully deleted' });
-    }
-
-  });
+    });
 });
 
 module.exports = router;
