@@ -1,22 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 
 import { TournamentsService } from './tournaments.service';
 import { User ,Tournament, GameType, GAMELIST } from '../../models/index';
 
 @Component({
-  selector: 'app-tournaments',
+  selector: 'tournaments',
   templateUrl: './tournaments.component.html',
   styleUrls: ['./tournaments.component.css']
 })
 export class TournamentsComponent implements OnInit {
 
-  currentUser: User;
+  @Input() selectedTournament: Tournament;
+  @Output() onEmitTournament = new EventEmitter<Tournament>();
   tournaments: Array<Tournament> = [];
   gameTypes: Array<GameType> = GAMELIST;
 
-  constructor(private tournamentsService: TournamentsService) {
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-  }
+  constructor(private tournamentsService: TournamentsService) {}
 
   ngOnInit() {
     // Retrieve posts from the API
@@ -29,7 +28,7 @@ export class TournamentsComponent implements OnInit {
     console.log('Show the tournament : ' + id);
     this.tournamentsService.getTournament(id)
       .subscribe(tournament => {
-        this.tournaments = [tournament];
+        this.onEmitTournament.emit(tournament);
       });
   }
 

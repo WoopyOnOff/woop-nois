@@ -1,22 +1,26 @@
-<p id="logout"*ngIf="currentUser"><a [routerLink]="['/admin']">Logout</a></p>
+<div class="panel panel-primary" *ngFor="let tournament of tournaments">
+  <div class="panel panel-heading">
+    <h3 class="panel-title">{{ tournament.label }}</h3>
+  </div>
+  <div class="panel-body">Type de tournoi : {{tournament.gameType}}<br />
+    Date du tournoi : {{tournament.date | date : "dd/MM/yyyy"}}<br />
+    Nombre d'équipes / poule : {{tournament.nbTeamsPerPool}}<br />
+    Joueurs / équipe : {{tournament.nbPlayersPerTeam}}<br />
+    <h4><span *ngIf="!tournament.isActif" class="badge badge-default">Désactivé</span></h4>
+    <h4><span *ngIf="tournament.isActif" class="badge badge-primary">Actif</span></h4>
+    <h4><span *ngIf="tournament.isPublished" class="badge badge-primary">Publié</span></h4>
+  </div>
+  <div class="panel-footer">
+    <a href="" (click)="onShow(tournament._id); false">
+      <button type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-pencil"></span> Edition du tournoi
+      </button>
+    </a>
 
-<h2 *ngIf="currentUser">Bienvenue {{currentUser.firstname}} !</h2>
-
-<header *ngIf="currentUser">
-  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-  <span class="glyphiconclass">Tournoi</span>
-</header>
-
-<div class="container">
-  <div class="row" *ngFor="let tournament of tournaments">
-    <div class="card card-block">
-      <h4 class="card-title">{{ tournament.label }}</h4>
-      <p class="card-text">Type de tournoi : {{tournament.gameType}}<br />
-        Date du tournoi : {{tournament.date | date : "dd/MM/yyyy"}}<br />
-        Nombre d'équipes par poule : {{tournament.nbTeamsPerPool}}<br />
-      </p>
-      <a href="" (click)="onShow(tournament._id); false" class="card-link">Edition du tournoi</a>
-      <a *ngIf="currentUser" href="" (click)="onDelete(tournament._id); false" class="card-link">Suppression du tournoi</a>
-    </div>
+    <a href="" (click)="onDelete(tournament._id); false">
+      <button type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-trash"></span> Suppression du tournoi
+      </button>
+    </a>
   </div>
 </div>

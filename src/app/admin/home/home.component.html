@@ -1,0 +1,17 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul id="title" class="nav navbar-nav navbar-left">
+        <li *ngIf="currentTournament">{{currentTournament.date}} / {{currentTournament.gameType}} / {{currentTournament.label}}</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a [routerLink]="['/admin']">Admin</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<div class="row">
+  <div class="col-md-3"><tournaments (onEmitTournament)="onEmitTournament($event)" ></tournaments></div>
+  <div class="col-md-9" *ngIf="currentTournament">{{currentTournament.label}}</div>
+</div>

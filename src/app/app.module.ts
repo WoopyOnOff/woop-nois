@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 
 // ADMIN IMPORT
 import { TournamentsComponent, TournamentsService } from './admin/tournaments/index';
+import { AdminHomeComponent } from './admin/home/home.component';
 
 // COMMON IMPORT
 import { AlertService, AlertComponent } from './common/alert/index';
@@ -33,10 +34,10 @@ const ROUTES = [
   // ADMIN URL
   {
     path: 'tournaments',
-    component: TournamentsComponent,
+    component: AdminHomeComponent,
     canActivate: [AuthGuard]
   },
-  
+
   // otherwise redirect to home
   { path: '**',
     redirectTo: ''
@@ -50,7 +51,8 @@ const ROUTES = [
     TournamentsComponent,
     LoginComponent,
     AlertComponent,
-    HomeComponent
+    HomeComponent,
+    AdminHomeComponent
   ],
   imports: [
     BrowserModule,
