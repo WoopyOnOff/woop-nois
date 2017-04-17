@@ -12,7 +12,7 @@
     <div class="card card-block">
       <h4 class="card-title">{{ tournament.label }}</h4>
       <p class="card-text">Type de tournoi : {{tournament.gameType}}<br />
-        Date du tournoi : {{tournament.date}}<br />
+        Date du tournoi : {{tournament.date | date : "dd/MM/yyyy"}}<br />
         Nombre d'équipes par poule : {{tournament.nbTeamsPerPool}}<br />
       </p>
       <a href="" (click)="onShow(tournament._id); false" class="card-link">Edition du tournoi</a>

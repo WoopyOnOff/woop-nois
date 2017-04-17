@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const jwt    = require('jsonwebtoken');
 
+// define model =================
+var Tournament     = require('../../models/tournament');
+
 router.use(function(req, res, next) {
 
   // check header or url parameters or post parameters for token
@@ -34,9 +37,6 @@ router.use(function(req, res, next) {
 
   }
 });
-
-// define model =================
-var Tournament     = require('../../../src/app/models/tournament');
 
 // routes ======================================================================
 
@@ -71,9 +71,27 @@ router.route('/:tournament_id')
       if (req.body.label != null) {
         tournament.label = req.body.label;
       }
+      if (req.body.gameType != null) {
+        tournament.gameType = req.body.gameType;
+      }
       if (req.body.date != null) {
         tournament.date = req.body.date;
       }
+      if (req.body.nbTeamsPerPool != null) {
+        tournament.nbTeamsPerPool = req.body.nbTeamsPerPool;
+      }
+      if (req.body.nbPlayersPerTeam != null) {
+        tournament.nbPlayersPerTeam = req.body.nbPlayersPerTeam;
+      }
+      if (req.body.isActif != null) {
+        tournament.isActif = req.body.isActif;
+      }
+      if (req.body.isPublished != null) {
+        tournament.isPublished = req.body.isPublished;
+      }
+
+      tournament.modifiedDate = Date.now();
+
       // etc ...
 
       // save the tournament

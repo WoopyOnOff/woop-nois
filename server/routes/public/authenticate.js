@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const jwt    = require('jsonwebtoken');
 const sha256 = require('sha256');
-var User = require('../../../src/app/models/user');
+
+var User = require('../../models/user');
 const config = require('../../config');
 
 router.use(function(req, res, next) {

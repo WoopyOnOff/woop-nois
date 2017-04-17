@@ -36,7 +36,7 @@ router.use(function(req, res, next) {
 });
 
 // define model =================
-var Pool     = require('../../../src/app/models/pool');
+var Pool     = require('../../models/pool');
 
 // routes ======================================================================
 
@@ -46,7 +46,7 @@ var Pool     = require('../../../src/app/models/pool');
 
 
 // TODO pools?idTournament=	GET	#idtournoi
-// TODO 
+// TODO
 router.route('/')
     // Ajout d'une poule
     .post(function (req, res) {

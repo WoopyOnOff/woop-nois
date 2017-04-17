@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+
 import { TournamentsService } from './tournaments.service';
 import { User } from '../models/userClient';
+import { Tournament } from '../models/tournamentClient';
 
 @Component({
   selector: 'app-tournaments',
@@ -10,7 +12,7 @@ import { User } from '../models/userClient';
 export class TournamentsComponent implements OnInit {
 
   currentUser: User;
-  tournaments: any = [];
+  tournaments: Array<Tournament> = [];
 
   constructor(private tournamentsService: TournamentsService) {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));

@@ -8,7 +8,7 @@ router.use(function(req, res, next) {
 })
 
 // define model =================
-var Pool     = require('../../../src/app/models/pool');
+var Pool     = require('../../models/pool');
 
 // routes ======================================================================
 

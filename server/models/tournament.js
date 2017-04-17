@@ -26,6 +26,8 @@ function _construct (req, tournament) {
   tournament.nbPlayersPerTeam = req.body.nbPlayersPerTeam;
   tournament.isActif = req.body.isActif;
   tournament.isPublished = req.body.isPublished;
+  tournament.createdDate = req.body.createdDate;
+  tournament.modifiedDate = req.body.modifiedDate;
 
   return tournament;
 }
