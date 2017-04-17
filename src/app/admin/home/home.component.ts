@@ -22,7 +22,6 @@ export class AdminHomeComponent implements OnInit {
   }
 
   onEmitTournament(tournament : Tournament) {
-    console.log("tournament : " + JSON.stringify(tournament));
     this.currentTournament = tournament;
     this.currentLabel = tournament.label;
   }

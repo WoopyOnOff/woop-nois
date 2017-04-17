@@ -10,7 +10,6 @@ import { User ,Tournament, GameType, GAMELIST } from '../../models/index';
 })
 export class TournamentsComponent implements OnInit {
 
-  @Input() selectedTournament: Tournament;
   @Output() onEmitTournament = new EventEmitter<Tournament>();
   tournaments: Array<Tournament> = [];
   gameTypes: Array<GameType> = GAMELIST;

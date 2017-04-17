@@ -11,7 +11,7 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-<div class="row">
+<div>
   <div class="col-md-3"><tournaments (onEmitTournament)="onEmitTournament($event)" ></tournaments></div>
   <div class="col-md-9" *ngIf="currentTournament">{{currentTournament.label}}</div>
 </div>
