@@ -5,29 +5,43 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { TournamentsComponent } from './tournaments/tournaments.component';
-import { LoginComponent } from './login/login.component';
-import { AlertComponent } from './alert/alert.component';
 
-import { TournamentsService } from './tournaments/tournaments.service';
-import { AuthenticationService } from './authentication/authentication.service';
-import { AlertService} from './alert/alert.service';
+// ADMIN IMPORT
+import { TournamentsComponent, TournamentsService } from './admin/tournaments/index';
+
+// COMMON IMPORT
+import { AlertService, AlertComponent } from './common/alert/index';
+import { AuthGuard } from './common/guards/auth.guard';
+
+// PUBLIC IMPORT
+import { AuthenticationService } from './public/login/authentication/authentication.service';
+import { HomeComponent } from './public/home/home.component';
+import { LoginComponent } from './public/login/login.component';
 
 // Define the routes
 const ROUTES = [
+  // PUBLIC URL
   {
     path: '',
-    redirectTo: 'tournaments',
-    pathMatch: 'full'
-  },
-  {
-    path: 'tournaments',
-    component: TournamentsComponent
+    component: HomeComponent
   },
   {
     path: 'admin',
     component: LoginComponent
+  },
+
+  // ADMIN URL
+  {
+    path: 'tournaments',
+    component: TournamentsComponent,
+    canActivate: [AuthGuard]
+  },
+  
+  // otherwise redirect to home
+  { path: '**',
+    redirectTo: ''
   }
+
 ];
 
 @NgModule({
@@ -35,7 +49,8 @@ const ROUTES = [
     AppComponent,
     TournamentsComponent,
     LoginComponent,
-    AlertComponent
+    AlertComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +58,7 @@ const ROUTES = [
     HttpModule,
     RouterModule.forRoot(ROUTES) // Add routes to the app
   ],
-  providers: [TournamentsService, AuthenticationService, AlertService],
+  providers: [AuthGuard, TournamentsService, AuthenticationService, AlertService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

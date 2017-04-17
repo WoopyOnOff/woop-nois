@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  environmentName: 'Prod'
+  environmentName: 'Prod',
+  hostnameServer: ''
 };

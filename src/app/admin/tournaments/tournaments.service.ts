@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { environment } from '../../../environments/environment';
 
 
 @Injectable()
@@ -13,13 +14,13 @@ export class TournamentsService {
   // Get all tournaments from the API
   getAllTournaments() {
     console.log('TournamentsService::getAllTournaments');
-    return this.http.get('/api/tournaments')
+    return this.http.get(environment.hostnameServer+'/api/tournaments')
       .map(res => res.json());
   }
 
   getTournament(id : String) {
     console.log('TournamentsService::getTournament : ' + id);
-    return this.http.get('/api/tournaments/'+id)
+    return this.http.get(environment.hostnameServer+'/api/tournaments/'+id)
       .map(res => res.json());
   }
 
@@ -28,7 +29,7 @@ export class TournamentsService {
   deleteTournament(id: String) {
     console.log('TournamentsService::deleteTournament : ' + id);
 
-    return this.http.delete('/api/tournaments/' + id, this.jwt())
+    return this.http.delete(environment.hostnameServer+'/api/tournaments/' + id, this.jwt())
       .map(res => res.json());
 
   }

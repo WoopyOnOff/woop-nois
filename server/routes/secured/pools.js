@@ -19,6 +19,9 @@ router.use(function(req, res, next) {
         // if everything is good, save to request for use in other routes
         req.decoded = decoded;
         console.log('Request on /api/pools');
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+        res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
         next();
       }
     });

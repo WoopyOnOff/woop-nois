@@ -1,4 +1,4 @@
-/// <reference path="../../../../node_modules/@types/jasmine/index.d.ts"‌​/>
+/// <reference path="../../../../../node_modules/@types/jasmine/index.d.ts"‌​/>
 
 export interface GuinessCompatibleSpy extends jasmine.Spy {
   /** By chaining the spy with and.returnValue, all calls to the function will return a specific

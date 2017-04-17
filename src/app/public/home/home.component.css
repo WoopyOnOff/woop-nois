@@ -1,0 +1,16 @@
+header {
+  width: 100%;
+  text-align: center;
+}
+
+.center {
+  text-align: center;
+}
+
+p {
+  margin: 10px;
+}
+
+div.game {
+  margin: 10px;
+}

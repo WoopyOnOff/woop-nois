@@ -10,3 +10,23 @@ export class Tournament {
   createdDate : Date;
   modifiedDate : Date;
 }
+
+export class GameType {
+  nom : string;
+  scoreMax : number;
+}
+
+export let GAMELIST : Array<GameType> = [
+  {
+    nom: "Molkky",
+    scoreMax: 50
+  },
+  {
+    nom: "Cornhole",
+    scoreMax: 21
+  },
+  {
+    nom: "Beach-Volley",
+    scoreMax: 0
+  }
+];

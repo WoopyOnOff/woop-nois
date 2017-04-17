@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { AuthenticationService } from '../authentication/authentication.service';
-import { AlertService } from '../alert/alert.service';
+import { AuthenticationService } from './authentication/authentication.service';
+import { AlertService } from '../../common/alert/alert.service';
 
 @Component({
   moduleId: module.id,
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
       this.authenticationService.logout();
 
       // get return url from route parameters or default to '/'
-      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/tournaments';
     }
 
     login() {
