@@ -40,3 +40,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 [JWT on node](https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens)
 
 [Official Angular Doc](https://angular.io/docs/ts/latest/guide/)
+
+[Angular seed - A voir!](https://github.com/mgechev/angular-seed-
