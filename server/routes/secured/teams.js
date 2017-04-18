@@ -18,7 +18,7 @@ router.use(function (req, res, next) {
       } else {
         // if everything is good, save to request for use in other routes
         req.decoded = decoded;
-        console.log('Request on /api/pools');
+        console.log('Request on /api/teams');
         res.header("Access-Control-Allow-Origin", "*");
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
         res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
@@ -39,70 +39,34 @@ router.use(function (req, res, next) {
 });
 
 // define model =================
-var Pool = require('../../models/pool');
+var Team = require('../../models/team');
 
 // routes ======================================================================
 
 // api ---------------------------------------------------------------------
-// get all pools
 
 
-
-// TODO pools?idTournament=	GET	#idtournoi
-// TODO
 router.route('/')
   // Ajout d'une poule
   .post(function (req, res) {
 
 
-    console.log('SERVER : Post a pool');
-    var pool = new Pool();
+    console.log('SERVER : Post a Team');
+    var team = new Team();
 
-    pool = Pool.createInstance(req, pool);
+    team = Team.createInstance(req, team);
 
-    var promise = pool.save();
+    var promise = team.save();
 
     mongoose.Promise = global.Promise;
 
-    promise.then(function (pool) {
-      res.json({ message: 'Pool created!', object: pool });
+    promise.then(function (team) {
+      res.json({ message: 'Team created!', object: team });
     });
   });
 
-router.route('/:pool_id')
-  .put(function(req, res) {
-    console.log('SERVER : Update a pool');
-    Pool.findById(req.params.pool_id)
-    .then( function (pool) {
-
-      //TODO Complete
-      if (req.body.tournamentId != null) {
-        pool.tournamentId = req.body.tournamentId;
-      }
-      if (req.body.poolName != null) {
-        pool.poolName = req.body.poolName;
-      }
-      if (req.body.teams != null) {
-        pool.teams = req.body.teams;
-      }
-      if (req.body.scores != null) {
-        pool.scores = req.body.scores;
-      }
-      if (req.body.pass != null) {
-        pool.pass = req.body.pass;
-      }
-
-      // save the tournament
-      pool.save(function(err) {
-        if (err)
-        res.send(err);
-
-        res.json({ message: 'Pool updated' });
-      });
-
-    });
-
-  })
+router.route('/:team_id')
+  
   
   // Delete d'une poule
   .delete(function (req, res) {
@@ -124,7 +88,5 @@ router.route('/:pool_id')
 
     });
   });
-
-
 
 module.exports = router;

@@ -6,7 +6,7 @@ var SchemaPool = new Schema({
   poolName : String, // lettre de la poule
   teams : Array, // Equipe
   scores : Array, // liste des scores
-  url : String
+  pass : String
 });
 
 // define model =================
@@ -16,10 +16,9 @@ function _construct (req, pool) {
 
   pool.tournamentId = req.body.tournamentId;
   pool.poolName = req.body.poolName;
-  pool.date = req.body.date;
   pool.teams = req.body.teams;
   pool.scores = req.body.scores;
-  pool.url = req.body.url;
+  pool.pass = req.body.pass;
 
   return pool;
 }
