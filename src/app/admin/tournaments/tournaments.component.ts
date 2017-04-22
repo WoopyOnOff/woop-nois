@@ -14,7 +14,32 @@ export class TournamentsComponent implements OnInit {
   tournaments: Array<Tournament> = [];
   gameTypes: Array<GameType> = GAMELIST;
 
-  constructor(private tournamentsService: TournamentsService) {}
+  constructor(private tournamentsService: TournamentsService) {
+
+    tournamentsService.updateComponentSource$.subscribe(
+          tournament => {
+            console.log("le tournoi a été mise à jour : " + JSON.stringify(tournament));
+            let i = 0;
+            let index = -1;
+            for (let tournoi of this.tournaments) {
+
+              if ( tournoi._id == tournament._id) {
+                index = i;
+              }
+              i++;
+            }
+
+            if ( index == -1) {
+              this.tournaments[i] = tournament;
+            }
+            else{
+              this.tournaments[index] = tournament;
+              console.log("le tournoi a été mise à jour !!!");
+            }
+
+          });
+
+  }
 
   ngOnInit() {
     // Retrieve posts from the API

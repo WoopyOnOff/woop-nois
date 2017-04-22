@@ -2,3 +2,12 @@
   margin-left: 50%;
   margin-top : 10px;
 }
+
+#addTournament {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+#addTournament span {
+  margin-right: 5px;
+}

@@ -12,10 +12,10 @@ export class AdminHomeComponent implements OnInit {
 
   currentUser: User;
   currentTournament: Tournament;
-  currentLabel: string;
 
   constructor() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    console.log("currentUser : " + JSON.stringify(this.currentUser));
   }
 
   ngOnInit() {
@@ -27,7 +27,6 @@ export class AdminHomeComponent implements OnInit {
 
   onEmitTournament(tournament : Tournament) {
     this.currentTournament = tournament;
-    this.currentLabel = tournament.label;
   }
 
 }

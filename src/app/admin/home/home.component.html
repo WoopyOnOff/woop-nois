@@ -3,17 +3,25 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul id="title" class="nav navbar-nav navbar-left">
-        <li *ngIf="currentTournament">{{currentTournament.date | date : "dd/MM/yyyy" }} / {{currentTournament.gameType}} / {{currentTournament.label}}</li>
+        <li *ngIf="currentTournament">
+          <span *ngIf="currentTournament.date">{{currentTournament.date | date : "dd/MM/yyyy" }} / </span>
+          <span *ngIf="currentTournament.gameType">{{currentTournament.gameType}} / </span>
+          <span *ngIf="currentTournament.label">{{currentTournament.label}}</span></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a [routerLink]="['/admin']">Admin</a></li>
+        <li><a [routerLink]="['/admin']">{{currentUser.firstname}} (Logout)</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 <div>
   <div class="col-md-3">
-    <a href="" (click)="onCreate(); false">+ Nouveau tournoi</a>
+    <a href="" (click)="onCreate(); false">
+      <button type="button" id="addTournament" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Nouveau tournoi
+      </button>
+    </a>
+    <br />
     <tournaments (onEmitTournament)="onEmitTournament($event)" ></tournaments>
   </div>
   <div class="col-md-9" *ngIf="currentTournament"><edit-tournament [tournament]="currentTournament"></edit-tournament></div>

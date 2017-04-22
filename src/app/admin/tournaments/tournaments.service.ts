@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject }    from 'rxjs/Subject';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { environment } from '../../../environments/environment';
@@ -6,6 +7,10 @@ import { Tournament } from '../../models/index';
 
 @Injectable()
 export class TournamentsService {
+
+  private updateComponentSource = new Subject<Tournament>();
+
+  updateComponentSource$ = this.updateComponentSource.asObservable();
 
   constructor(private http: Http) { }
 
@@ -64,6 +69,10 @@ export class TournamentsService {
     return this.http.delete(environment.hostnameServer+'/api/secured/tournaments/' + id, { headers: header })
       .map(res => res.json());
 
+  }
+
+  updateComponent(tournament: Tournament) {
+    this.updateComponentSource.next(tournament);
   }
 
   private jwt() {
