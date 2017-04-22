@@ -21,7 +21,7 @@ router.use(function (req, res, next) {
         console.log('Request on /api/teams');
         res.header("Access-Control-Allow-Origin", "*");
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-        res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+        res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, x-access-token");
         next();
       }
     });
@@ -66,8 +66,8 @@ router.route('/')
   });
 
 router.route('/:team_id')
-  
-  
+
+
   // Delete d'une poule
   .delete(function (req, res) {
     console.log('SERVER: Delete pool with id : ' + req.params.pool_id);

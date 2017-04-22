@@ -1,0 +1,67 @@
+
+<h3>Configuration tournoi</h3>
+<br />
+<form (ngSubmit)="onSubmit()" #tournoiForm="ngForm">
+  <label for="gameType">Type de jeu : </label>
+  <div>
+  <select class="form-control" id="gameType"
+      required
+      [(ngModel)]="tournament.gameType" name="gameType">
+    <option></option>
+    <option *ngFor="let game of gameList" [value]="game.nom">{{game.nom}}</option>
+  </select>
+  </div>
+
+  <div>
+     <label for="titre">Titre</label>
+     <input type="text" class="form-control" id="titre"
+        required [(ngModel)]="tournament.label" name="label" #label="ngModel"/>
+     <div [hidden]="label.valid || label.pristine" class="alert alert-danger">
+       Le titre est obligatoire
+     </div>
+  </div>
+
+  <div>
+    <label for="date">Date</label>
+    <input type="date" class="form-control" id="date" required
+      [ngModel]="tournament.date | date:'yyyy-MM-dd'"
+      (ngModelChange)="tournament.date = $event"
+      [value]="date | date:'yyyy-MM-dd'" name="date" />
+  </div>
+  <br />
+  <div>
+    <label for="isActif">Actif</label><input id="isActif" type="checkbox" [(ngModel)]="tournament.isActif" name="isActif" />
+  </div>
+  <br />
+  <div>
+    <label for="isPublished">Publié</label><input id="isPublished" type="checkbox" [(ngModel)]="tournament.isPublished" name="isPublished" />
+  </div>
+
+  <div>
+    <label for="nbTeamsPerPool">Nombre d'équipes / poule</label>
+    <div class="input-group">
+      <div class="input-group-btn">
+        <button class="btn btn-secondary" type="button" (click)="tournament.nbTeamsPerPool = tournament.nbTeamsPerPool - 1">-</button>
+      </div>
+      <input type="number" class="form-control" id="nbTeamsPerPool" placeholder="{{tournament.nbTeamsPerPool}}">
+      <div class="input-group-btn">
+        <button class="btn btn-secondary" type="button" (click)="tournament.nbTeamsPerPool = tournament.nbTeamsPerPool + 1">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label for="nbPlayersPerTeam">Joueurs / équipes</label>
+    <div class="input-group">
+      <div class="input-group-btn">
+        <button class="btn btn-secondary" type="button" (click)="tournament.nbPlayersPerTeam = tournament.nbPlayersPerTeam - 1">-</button>
+      </div>
+      <input type="number" id="nbPlayersPerTeam" class="form-control" placeholder="{{tournament.nbPlayersPerTeam}}">
+      <div class="input-group-btn">
+        <button class="btn btn-secondary" type="button" (click)="tournament.nbPlayersPerTeam = tournament.nbPlayersPerTeam + 1">+</button>
+      </div>
+    </div>
+  </div>
+  <br />
+  <button type="submit" class="btn btn-success" [disabled]="!tournoiForm.form.valid">Sauvegarder</button>
+</form>

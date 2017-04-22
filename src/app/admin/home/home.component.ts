@@ -21,6 +21,10 @@ export class AdminHomeComponent implements OnInit {
   ngOnInit() {
   }
 
+  onCreate() {
+    this.currentTournament = new Tournament();
+  }
+
   onEmitTournament(tournament : Tournament) {
     this.currentTournament = tournament;
     this.currentLabel = tournament.label;

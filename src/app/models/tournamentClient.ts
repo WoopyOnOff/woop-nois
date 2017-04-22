@@ -1,6 +1,6 @@
 export class Tournament {
+  _id : string;
   label : string; // Le nom du tournoi
-  //TODO Transformer en objet
   gameType : string; // Le type de tournoi
   date : Date; // La date du tournoi
   nbTeamsPerPool : number; // Le nombre d'équipes par poule
@@ -9,6 +9,13 @@ export class Tournament {
   isPublished : boolean; // ??
   createdDate : Date;
   modifiedDate : Date;
+
+  constructor() {
+    this.nbTeamsPerPool = 0;
+    this.nbPlayersPerTeam = 0;
+    this.isActif = false;
+    this.isPublished = false;
+  }
 }
 
 export class GameType {

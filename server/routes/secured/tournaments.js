@@ -8,37 +8,27 @@ var Tournament     = require('../../models/tournament');
 
 router.use(function(req, res, next) {
 
-  // check header or url parameters or post parameters for token
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  console.log('Request on /api/secured/tournaments');
+  console.log('Request mode : ' + req.method);
 
-  // decode token
-  if (token) {
-
-    // verifies secret and checks exp
-    jwt.verify(token, secretIdToken, function(err, decoded) {
-      if (err) {
-        return res.json({ success: false, message: 'Failed to authenticate token.' });
-      } else {
-        // if everything is good, save to request for use in other routes
-        req.decoded = decoded;
-        console.log('Request on /api/tournaments');
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-        res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
-        next();
-      }
-    });
-
-  } else {
-
-    // if there is no token
-    // return an error
-    return res.status(403).send({
-        success: false,
-        message: 'No token provided.'
-    });
-
+  if (req.method == 'OPTIONS') {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,OPTIONS,DELETE');
+    res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, x-access-token");
+    res.header("Access-Control-Max-Age", "1728000");
   }
+  else {
+
+    var token =req.body.token || req.query.token || req.headers['x-access-token'];
+
+    var response = isSecured(req, res, token);
+
+    if ( response != null) {
+      return response;
+    }
+  }
+
+  next();
 });
 
 // routes ======================================================================
@@ -47,7 +37,6 @@ router.use(function(req, res, next) {
 // get all tournamenets
 router.route('/')
 .post(function (req, res) {
-
 
   console.log('SERVER : Post a tournament');
   var tournament = new Tournament();
@@ -65,12 +54,17 @@ router.route('/')
 
 router.route('/:tournament_id')
 
+  .options(function(req, res) {
+    console.log('SERVER : option');
+    res.send();
+  })
+
   .put(function(req, res) {
     console.log('SERVER : Update a tournament');
+
     Tournament.findById(req.params.tournament_id)
     .then( function (tournament) {
 
-      //TODO Complete
       if (req.body.label != null) {
         tournament.label = req.body.label;
       }
@@ -94,8 +88,6 @@ router.route('/:tournament_id')
       }
 
       tournament.modifiedDate = Date.now();
-
-      // etc ...
 
       // save the tournament
       tournament.save(function(err) {
@@ -128,5 +120,31 @@ router.route('/:tournament_id')
 
     });
 });
+
+function isSecured(req, res, token) {
+  // decode token
+  if (token) {
+
+    // verifies secret and checks exp
+    jwt.verify(token, secretIdToken, function(err, decoded) {
+      if (err) {
+        return res.status(403).send({ success: false, message: 'Failed to authenticate token.' });
+      } else {
+        // if everything is good, save to request for use in other routes
+        req.decoded = decoded;
+        res.header("Access-Control-Allow-Origin", "*");
+      }
+    });
+
+  } else {
+
+    // if there is no token
+    // return an error
+    return res.status(403).send({
+        success: false,
+        message: 'No token provided.'
+    });
+  }
+}
 
 module.exports = router;

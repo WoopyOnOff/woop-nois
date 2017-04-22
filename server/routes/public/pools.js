@@ -5,8 +5,6 @@ const router = express.Router();
 router.use(function(req, res, next) {
   console.log('Request on /api/pool');
   res.header("Access-Control-Allow-Origin", "*");
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
   next();
 })
 
@@ -19,7 +17,7 @@ var Pool     = require('../../models/pool');
 // get all pools
 router.route('/')
 .get(function (req, res) {
-  
+
 
   if ( Object.keys(req.query).length === 0) {
     console.log('SERVER : Get all pools');
@@ -36,7 +34,7 @@ router.route('/')
     console.log('Query : ' + JSON.stringify(req.query));
     if (req.query.idTournament != null)
     {
-      
+
       Pool.find({"tournamentId" : req.query.idTournament}, function(err, pools) {
         // if there is an error retrieving, send the error. nothing after res.send(err) will execute
         if (err)

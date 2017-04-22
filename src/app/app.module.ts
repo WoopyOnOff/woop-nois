@@ -18,6 +18,7 @@ import { AuthGuard } from './common/guards/auth.guard';
 import { AuthenticationService } from './public/login/authentication/authentication.service';
 import { HomeComponent } from './public/home/home.component';
 import { LoginComponent } from './public/login/login.component';
+import { EditTournamentComponent } from './admin/edit-tournament/edit-tournament.component';
 
 // Define the routes
 const ROUTES = [
@@ -52,7 +53,8 @@ const ROUTES = [
     LoginComponent,
     AlertComponent,
     HomeComponent,
-    AdminHomeComponent
+    AdminHomeComponent,
+    EditTournamentComponent
   ],
   imports: [
     BrowserModule,

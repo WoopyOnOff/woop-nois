@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 // Set our api routes
 app.use('/api/tournaments', publicTournaments);
-app.use('/api/tournaments', privateTournaments);
+app.use('/api/secured/tournaments/', privateTournaments);
 app.use('/api/pools', publicPools);
 app.use('/api/pools', privatePools);
 app.use('/api/authenticate', authenticate);
