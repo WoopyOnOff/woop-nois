@@ -2,40 +2,31 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const helper = require('./_helper');
 
 router.use(function (req, res, next) {
 
-  // check header or url parameters or post parameters for token
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  console.log('Request on /api/secured/pools');
+  console.log('Request mode : ' + req.method);
 
-  // decode token
-  if (token) {
-
-    // verifies secret and checks exp
-    jwt.verify(token, secretIdToken, function (err, decoded) {
-      if (err) {
-        return res.json({ success: false, message: 'Failed to authenticate token.' });
-      } else {
-        // if everything is good, save to request for use in other routes
-        req.decoded = decoded;
-        console.log('Request on /api/pools');
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-        res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, x-access-token");
-        next();
-      }
-    });
-
-  } else {
-
-    // if there is no token
-    // return an error
-    return res.status(403).send({
-      success: false,
-      message: 'No token provided.'
-    });
-
+  if (req.method == 'OPTIONS') {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,OPTIONS,DELETE');
+    res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, x-access-token");
+    res.header("Access-Control-Max-Age", "1728000");
   }
+  else {
+
+    var token =req.body.token || req.query.token || req.headers['x-access-token'];
+
+    console.log('token : ' + token);
+    var response = helper.isSecured(req, res, token);
+
+    if ( response != null) {
+      return response;
+    }
+  }
+  next();
 });
 
 // define model =================
@@ -51,9 +42,13 @@ var Pool = require('../../models/pool');
 // TODO pools?idTournament=	GET	#idtournoi
 // TODO
 router.route('/')
+
+  .options(function(req, res) {
+    console.log('SERVER : option');
+    res.send();
+  })
   // Ajout d'une poule
   .post(function (req, res) {
-
 
     console.log('SERVER : Post a pool');
     var pool = new Pool();

@@ -36,10 +36,13 @@ app.use(express.static(path.join(__dirname, 'dist')));
 // Set our api routes
 app.use('/api/tournaments', publicTournaments);
 app.use('/api/secured/tournaments/', privateTournaments);
+
 app.use('/api/pools', publicPools);
-app.use('/api/pools', privatePools);
+app.use('/api/secured/pools', privatePools);
+
 app.use('/api/authenticate', authenticate);
-app.use('/api/teams', privateTeams);
+
+app.use('/api/secured/teams', privateTeams);
 
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {

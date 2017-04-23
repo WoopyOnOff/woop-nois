@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { User, Tournament } from '../../models/index';
-import { TournamentsComponent, TournamentsService } from '../tournaments/index';
+import { TournamentsComponent } from '../tournaments/index';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
-  providers: [TournamentsService]
+  styleUrls: ['./home.component.css']
 })
 export class AdminHomeComponent implements OnInit {
 

@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Subject }    from 'rxjs/Subject';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { environment } from '../../../environments/environment';
 import { Tournament } from '../../models/index';
+import { JWT } from '../../common/jwt';
 
 @Injectable()
 export class TournamentsService {
@@ -12,7 +13,7 @@ export class TournamentsService {
 
   updateComponentSource$ = this.updateComponentSource.asObservable();
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {}
 
   ///// PUBLIC API /////
 
@@ -34,11 +35,12 @@ export class TournamentsService {
   createTournament(tournament: Tournament) {
     console.log('TournamentsService::createTournament');
 
-    let header = this.jwt();
+    let jwtClass = new JWT();
+    let header = jwtClass.jwt();
     header.append('Content-Type', 'application/json');
     let body = JSON.stringify(tournament);
     return this.http.post(environment.hostnameServer+'/api/secured/tournaments/', body,
-      { headers: header })
+      {headers : header})
       .map(res => res.json())
           .subscribe(
         (data) => console.log(data),
@@ -48,13 +50,13 @@ export class TournamentsService {
   updateTournament(tournament: Tournament) {
     console.log('TournamentsService::updateTournament : ' + tournament._id);
 
-    let header = this.jwt();
+    let jwtClass = new JWT();
+    let header = jwtClass.jwt();
     header.append('Content-Type', 'application/json');
 
     let body = JSON.stringify(tournament);
     return this.http.put(environment.hostnameServer+'/api/secured/tournaments/'+tournament._id,
-        body,
-        { headers: header })
+        body, {headers : header} )
       .map(res => res.json())
           .subscribe(
         (data) => console.log(data),
@@ -65,8 +67,9 @@ export class TournamentsService {
   deleteTournament(id: String) {
     console.log('TournamentsService::deleteTournament : ' + id);
 
-    let header = this.jwt();
-    return this.http.delete(environment.hostnameServer+'/api/secured/tournaments/' + id, { headers: header })
+    let jwtClass = new JWT();
+    let header = jwtClass.jwt();
+    return this.http.delete(environment.hostnameServer+'/api/secured/tournaments/' + id, {headers : header})
       .map(res => res.json());
 
   }
@@ -75,13 +78,4 @@ export class TournamentsService {
     this.updateComponentSource.next(tournament);
   }
 
-  private jwt() {
-        // create authorization header with jwt token
-        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (currentUser && currentUser.token) {
-            let headers = new Headers({ 'x-access-token': currentUser.token });
-            return headers;
-        }
-
-    }
 }

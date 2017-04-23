@@ -24,5 +24,13 @@
     <br />
     <tournaments (onEmitTournament)="onEmitTournament($event)" ></tournaments>
   </div>
-  <div class="col-md-9" *ngIf="currentTournament"><edit-tournament [tournament]="currentTournament"></edit-tournament></div>
+  <div class="col-md-9" *ngIf="currentTournament">
+    <edit-tournament [tournament]="currentTournament"></edit-tournament>
+    <div class="col-md-3">
+      <list-pool [tournament]="currentTournament"></list-pool>
+    </div>
+    <div class="col-md-6">
+      Détail poule
+    </div>
+  </div>
 </div>

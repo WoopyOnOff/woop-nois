@@ -1,0 +1,9 @@
+<h3>Configuration des poules</h3>
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let pool of pools">Poule {{ pool.poolName }} - eq : {{pool.teams.length}}/{{currentTournament.nbTeamsPerPool}} - val ?/{{currentTournament.nbTeamsPerPool}}</li>
+</ul>
+<a href="" (click)="addPool(); false">
+  <button type="button" id="addPool" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Poule
+  </button>
+</a>

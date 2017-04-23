@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 const jwt    = require('jsonwebtoken');
+const helper = require('./_helper');
 
 // define model =================
 var Tournament     = require('../../models/tournament');
@@ -21,7 +22,7 @@ router.use(function(req, res, next) {
 
     var token =req.body.token || req.query.token || req.headers['x-access-token'];
 
-    var response = isSecured(req, res, token);
+    var response = helper.isSecured(req, res, token);
 
     if ( response != null) {
       return response;
@@ -120,31 +121,5 @@ router.route('/:tournament_id')
 
     });
 });
-
-function isSecured(req, res, token) {
-  // decode token
-  if (token) {
-
-    // verifies secret and checks exp
-    jwt.verify(token, secretIdToken, function(err, decoded) {
-      if (err) {
-        return res.status(403).send({ success: false, message: 'Failed to authenticate token.' });
-      } else {
-        // if everything is good, save to request for use in other routes
-        req.decoded = decoded;
-        res.header("Access-Control-Allow-Origin", "*");
-      }
-    });
-
-  } else {
-
-    // if there is no token
-    // return an error
-    return res.status(403).send({
-        success: false,
-        message: 'No token provided.'
-    });
-  }
-}
 
 module.exports = router;
