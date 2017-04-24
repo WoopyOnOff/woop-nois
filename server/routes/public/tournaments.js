@@ -24,10 +24,13 @@ router.route('/')
     Tournament.find(function(err, tournaments) {
 
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-      if (err)
-      res.send(err)
+      if (err) {
+        res.send(err)
+      }
+      else {
+        res.json(tournaments); // return all tournaments in JSON format
+      }
 
-      res.json(tournaments); // return all tournaments in JSON format
     });
   }
   else {
@@ -37,10 +40,13 @@ router.route('/')
       Tournament.find({"isActif" : req.query.isActif}, function(err, tournaments) {
 
         // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-        if (err)
-        res.send(err)
+        if (err) {
+          res.send(err)
+        }
+        else {
+          res.json(tournaments); // return all tournaments in JSON format
+        }
 
-        res.json(tournaments); // return all tournaments in JSON format
       });
     }
     else {
@@ -51,18 +57,6 @@ router.route('/')
   }
 });
 
-// router.route('\?isActif=:value')
-// .get(function(req, res) {
-//   console.log('SERVER : Get all tournaments where isActive=' + req.params.value);
-//   Tournament.find({"isActif" : req.params.value}, function (err, tournaments) {
-//     if ( err ) {
-//       console.log('error while getting tournaments where isActive=' + req.params.value);
-//       res.send(err);
-//     }
-//     res.json(tournaments);
-//   })
-// });
-
 router.route('/:tournament_id')
 .get(function(req, res) {
   console.log('SERVER : Get a tournament');
@@ -71,7 +65,10 @@ router.route('/:tournament_id')
       console.log('error while getting tournament with id ');
       res.send(err);
     }
-    res.json(tournament);
+    else {
+      res.json(tournament);
+    }
+
   })
 });
 

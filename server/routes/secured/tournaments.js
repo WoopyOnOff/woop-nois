@@ -17,19 +17,38 @@ router.use(function(req, res, next) {
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,OPTIONS,DELETE');
     res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, x-access-token");
     res.header("Access-Control-Max-Age", "1728000");
+    next();
   }
   else {
 
     var token =req.body.token || req.query.token || req.headers['x-access-token'];
 
-    var response = helper.isSecured(req, res, token);
+    //Still not sure of the use of helper.verify() because of the next().
+    if (token) {
 
-    if ( response != null) {
-      return response;
+      // verifies secret and checks exp
+      jwt.verify(token, secretIdToken, function(err, decoded) {
+        if (err) {
+          console.log("problem with token");
+          return res.status(403).json({ success: false, message: 'Failed to authenticate token.' });
+        } else {
+          // if everything is good, save to request for use in other routes
+          console.log("Token ok");
+          req.decoded = decoded;
+          res.header("Access-Control-Allow-Origin", "*");
+          next();
+        }
+      });
+
+    } else {
+      // if there is no token
+      // return an error
+      return res.status(403).send({
+          success: false,
+          message: 'No token provided.'
+      });
     }
   }
-
-  next();
 });
 
 // routes ======================================================================
@@ -90,14 +109,33 @@ router.route('/:tournament_id')
 
       tournament.modifiedDate = Date.now();
 
-      // save the tournament
       tournament.save(function(err) {
-        if (err)
-        res.send(err);
+        if (err) {
+          res.send(err);
+        }
+        else {
+          res.json({ message: 'Tournament updated' });
+        }
 
-        res.json({ message: 'Tournament updated' });
       });
-
+      // mongoose.Promise = global.Promise;
+      // // save the tournament
+      // var promise = tournament.save();
+      //
+      // promise.then( function (err, tournament) {
+      //   if ( err ) {
+      //     console.log("err : " + err);
+      //     console.log("tournament : " + tournament);
+      //     res.status(500).send(err);
+      //   }
+      //   else {
+      //     console.log("Save OK");
+      //     res.status(200).send({ message: 'Tournament updated', object : tournament});
+      //   }
+      // })
+      // .catch((error) => {
+      //   console.log(error);
+      // });
     });
 
   })
@@ -111,12 +149,13 @@ router.route('/:tournament_id')
         console.log('SERVER: Error : ' + err);
         res.send(err);
       }
-
-      if ( tournament.result.n == 0) {
-        res.json({ message : 'Tournament doesn\'t exist'})
-      }
       else {
-        res.json({ message: 'Tournament successfully deleted' });
+        if ( tournament.result.n == 0) {
+          res.json({ message : 'Tournament doesn\'t exist'})
+        }
+        else {
+          res.json({ message: 'Tournament successfully deleted' });
+        }
       }
 
     });

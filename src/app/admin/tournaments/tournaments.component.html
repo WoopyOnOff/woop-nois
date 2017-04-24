@@ -12,13 +12,12 @@
   </div>
   <div class="panel-footer">
     <a href="" (click)="onShow(tournament._id); false">
-      <button type="button" class="btn btn-default">
+      <button type="button" class="btn btn-success">
         <span class="glyphicon glyphicon-pencil"></span> Edition du tournoi
       </button>
     </a>
-
-    <a href="" (click)="onDelete(tournament._id); false">
-      <button type="button" class="btn btn-default">
+    <a *ngIf="!tournament.isActif" href="" (click)="onDelete(tournament._id); false">
+      <button type="button" class="btn btn-danger">
         <span class="glyphicon glyphicon-trash"></span> Suppression du tournoi
       </button>
     </a>

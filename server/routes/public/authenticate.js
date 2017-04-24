@@ -32,7 +32,7 @@ router.route('/')
         if ( user.password == sha256(password)) {
 
             var token = jwt.sign({ username : user.login}, config.secret, {
-                  expiresIn: 1440 // expires in 24 hours
+                  expiresIn: 86400 // expires in 24 hours
                 });
 
             res.json({

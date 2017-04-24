@@ -34,7 +34,6 @@ export class TournamentsComponent implements OnInit {
             }
             else{
               this.tournaments[index] = tournament;
-              console.log("le tournoi a été mise à jour !!!");
             }
 
           });

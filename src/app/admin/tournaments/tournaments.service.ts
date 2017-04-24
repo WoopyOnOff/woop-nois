@@ -1,7 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { Subject }    from 'rxjs/Subject';
+import {Observable} from 'rxjs/Rx';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 import { environment } from '../../../environments/environment';
 import { Tournament } from '../../models/index';
 import { JWT } from '../../common/jwt';
@@ -41,10 +43,10 @@ export class TournamentsService {
     let body = JSON.stringify(tournament);
     return this.http.post(environment.hostnameServer+'/api/secured/tournaments/', body,
       {headers : header})
-      .map(res => res.json())
-          .subscribe(
-        (data) => console.log(data),
-        (err) => console.log(err));
+      .map(res => res.json());
+        //   .subscribe(
+        // (data) => console.log(data),
+        // (err) => console.log(err));
   }
 
   updateTournament(tournament: Tournament) {
@@ -57,10 +59,17 @@ export class TournamentsService {
     let body = JSON.stringify(tournament);
     return this.http.put(environment.hostnameServer+'/api/secured/tournaments/'+tournament._id,
         body, {headers : header} )
-      .map(res => res.json())
-          .subscribe(
-        (data) => console.log(data),
-        (err) => console.log(err));
+      .map(res => {
+        console.log("error : " + JSON.stringify(res.status));
+        res.json();})
+        .catch(this.handleError);
+      // .catch((error: any) => {
+      //   console.log('catch error : ' + error);
+      //   return Observable.throw(error.json().error || 'Server error');
+      // });
+        //   .subscribe(
+        // (data) => console.log("Data : " + data),
+        // (err) => {console.log("Erreur : " + err); return false;});
 
   }
 
@@ -78,4 +87,8 @@ export class TournamentsService {
     this.updateComponentSource.next(tournament);
   }
 
+  handleError(error:any) {
+      console.error(error);
+      return Observable.throw(error);
+  }
 }

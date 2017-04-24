@@ -24,16 +24,31 @@ export class EditTournamentComponent implements OnInit, OnDestroy {
   onSubmit() {
     console.log(JSON.stringify(this.tournament));
     if (this.tournament._id != null) {
-      this.tournamentsService.updateTournament(this.tournament);
+      this.tournamentsService.updateTournament(this.tournament)
+        .subscribe(
+          (data) => {
+            this.tournamentsService.updateComponent(this.tournament);
+          },
+          (err) => {console.log("Erreur : " + err);}
+        );
+
     }
     else {
-      this.tournamentsService.createTournament(this.tournament);
+      this.tournamentsService.createTournament(this.tournament)
+        .subscribe(
+          (data) => {
+            this.tournament._id = data.object._id;
+            this.tournamentsService.updateComponent(this.tournament);
+          },
+          (err) => {console.log("Erreur : " + err);}
+        );
     }
-    this.tournamentsService.updateComponent(this.tournament);
   }
 
   ngOnDestroy() {
     // prevent memory leak when component destroyed
-    this.subscription.unsubscribe();
+    if ( this.subscription != null) {
+      this.subscription.unsubscribe();
+    }
   }
 }

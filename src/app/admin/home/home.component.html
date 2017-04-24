@@ -17,7 +17,7 @@
 <div>
   <div class="col-md-3">
     <a href="" (click)="onCreate(); false">
-      <button type="button" id="addTournament" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
+      <button type="button" id="addTournament" data-loading-text="Loading..." class="btn btn-success" autocomplete="off">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Nouveau tournoi
       </button>
     </a>
@@ -26,11 +26,14 @@
   </div>
   <div class="col-md-9" *ngIf="currentTournament">
     <edit-tournament [tournament]="currentTournament"></edit-tournament>
-    <div class="col-md-3">
-      <list-pool [tournament]="currentTournament"></list-pool>
+    <div class="row" *ngIf="currentTournament._id">
+      <div class="col-md-3">
+        <list-pool [tournament]="currentTournament"></list-pool>
+      </div>
+      <div class="col-md-6">
+        Détail poule
+      </div>
     </div>
-    <div class="col-md-6">
-      Détail poule
-    </div>
+
   </div>
 </div>
