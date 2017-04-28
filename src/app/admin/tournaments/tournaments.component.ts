@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 
 import { TournamentsService } from './tournaments.service';
+import { PoolsService } from '../pools/pools.service';
 import { User ,Tournament, GameType, GAMELIST } from '../../models/index';
 
 @Component({
@@ -14,7 +15,8 @@ export class TournamentsComponent implements OnInit {
   tournaments: Array<Tournament> = [];
   gameTypes: Array<GameType> = GAMELIST;
 
-  constructor(private tournamentsService: TournamentsService) {
+  constructor(private tournamentsService: TournamentsService,
+    private poolsService: PoolsService) {
 
     tournamentsService.updateComponentSource$.subscribe(
           tournament => {
@@ -62,6 +64,12 @@ export class TournamentsComponent implements OnInit {
         this.tournamentsService.getAllTournaments().subscribe(tournaments => {
           this.tournaments = tournaments;
         });
+      });
+      console.log('Delete the pools of the tournament : ' + id);
+      this.poolsService.getAllPools(id).subscribe(pools => {
+        for (let pool of pools) {
+          this.poolsService.deletePool(pool._id);
+        }
       });
   }
 }

@@ -157,7 +157,6 @@ router.route('/:tournament_id')
           res.json({ message: 'Tournament successfully deleted' });
         }
       }
-
     });
 });
 

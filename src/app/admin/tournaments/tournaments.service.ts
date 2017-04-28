@@ -26,6 +26,18 @@ export class TournamentsService {
       .map(res => res.json());
   }
 
+  getAllActiveTournaments() {
+    console.log('TournamentsService::getAllActiveTournaments');
+    return this.http.get(environment.hostnameServer+'/api/tournaments?isActif=true')
+      .map(res => res.json());
+  }
+
+  getAllPublishedTournaments() {
+    console.log('TournamentsService::getAllPublishedTournaments');
+    return this.http.get(environment.hostnameServer+'/api/tournaments?isPublished=true')
+      .map(res => res.json());
+  }
+
   getTournament(id : String) {
     console.log('TournamentsService::getTournament : ' + id);
     return this.http.get(environment.hostnameServer+'/api/tournaments/'+id)

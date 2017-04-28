@@ -49,7 +49,22 @@ router.route('/')
 
       });
     }
-    else {
+    else if (req.query.isPublished != null)
+    {
+      Tournament.find({"isPublished" : req.query.isPublished}, function(err, tournaments) {
+
+        // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+        if (err) {
+          res.send(err)
+        }
+        else {
+          res.json(tournaments); // return all tournaments in JSON format
+        }
+
+      });
+    }
+    else
+    {
       console.log('Unknown Query : ' + JSON.stringify(req.query));
       res.status(400).send('Bad request : Unknown Query : ' + JSON.stringify(req.query));
     }

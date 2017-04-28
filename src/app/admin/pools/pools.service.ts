@@ -38,6 +38,20 @@ export class PoolsService {
           (err) => console.log(err));
   }
 
+  deletePool(idPool: String) {
+    console.log('PoolsService::deletePool');
+
+    let jwtClass = new JWT();
+    let header = this.jwt();
+
+    return this.http.delete(environment.hostnameServer+'/api/secured/pools/'+idPool,
+      {headers : header})
+      .map(res => res.json())
+          .subscribe(
+        (data) => console.log(data),
+        (err) => console.log(err));
+  }
+
   public jwt() {
       // create authorization header with jwt token
       let currentUser = JSON.parse(localStorage.getItem('currentUser'));

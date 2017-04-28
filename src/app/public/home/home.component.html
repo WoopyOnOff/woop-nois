@@ -3,12 +3,26 @@
 </header>
 <div class="center">
   <img src="/assets/images/icon-144x144.png" />
-  <p>
-    Veuillez choisir votre tournoi
-  </p>
-  <div class="game" *ngFor="let game of gameList">
-    <div class="card card-block">
-      <h4 class="card-title">{{ game.nom }}</h4>
+  <!-- List of the active tournaments -->
+  <div *ngIf="activeTournaments">
+    <p>
+      Veuillez choisir votre tournoi
+    </p>
+    <div class="game" *ngFor="let tournaments of activeTournaments">
+      <div class="card card-block">
+        <button>{{ tournaments.gameType }} - {{ tournaments.label }}</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="publishedTournaments">
+    <p>
+      Consultez les résultats d'un tournoi
+    </p>
+    <div class="game" *ngFor="let tournaments of publishedTournaments">
+      <div class="card card-block">
+        <button>{{ tournaments.gameType }} - {{ tournaments.label }}</button>
+      </div>
     </div>
   </div>
 
