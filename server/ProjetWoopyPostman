@@ -1,0 +1,629 @@
+{
+	"variables": [],
+	"info": {
+		"name": "ProjetWoopy",
+		"_postman_id": "5a73997b-972a-e9e0-9a45-72469e7da37b",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"description": "",
+			"item": [
+				{
+					"name": "Authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setGlobalVariable(\"token\", jsonData.token);",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/authenticate/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"login\" : \"{{login}}\", \n  \"pwd\": \"{{password}}\"}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Verify token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"message token OK !\"] = jsonData.message === \"Token valid\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/authenticate/verify",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"token\" : \"{{token}}\"}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pools",
+			"description": "",
+			"item": [
+				{
+					"name": "Create a pool",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Message for creating pool OK!\"] = jsonData.message === \"Pool created!\";",
+									"",
+									"postman.setGlobalVariable(\"poolId\", jsonData.object._id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/secured/pools",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"tournamentId\" : \"{{tournamentId}}\",\n  \"poolName\" : \"Z\",\n  \"teams\" : [{ \"id\": 1, \"joueurs\" : [ \"Richard\",\"Paul\" ], \"isActif\" : true }, { \"id\" : 2, \"joueurs\" : [ \"Bob\", \"John\" ], \"isActif\" : true }],\n  \"scores\" : [{ \"eq\" : [ 1, 2 ], \"sc\" : [ 50, 37 ], \"va\" : true, \"ts\" : 9868769876}],\n  \"url\" : \"woopy.fr/cornhole/20100716/motALaCon\"\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all pool",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/pools",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all pool by tournament id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Name of the pool is OK!\"] = jsonData[0].poolName === \"Z\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/pools?idTournament={{tournamentId}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get a pool by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Name of the pool is OK!\"] = jsonData.poolName === \"Z\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/pools/{{poolId}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update a pool : Scores Add",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Message for updating pool OK!\"] = jsonData.message === \"Pool updated\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/secured/pools/{{poolId}}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"eq\" : [ 1, 2 ], \"sc\" : [ 14, 50 ], \"va\" : true, \"ts\" : 100000000}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a pool",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Message for deleting a pool OK!\"] = jsonData.message === \"Pool successfully deleted\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/secured/pools/{{poolId}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create a tournament copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Message for tournament created OK!\"] = jsonData.message === \"Tournament created!\";",
+									"",
+									"postman.setGlobalVariable(\"tournamentId\", jsonData.object._id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/secured/tournaments",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"label\" : \"Tournoi du Flip 2001\",\n\t\"gameType\" : \"Cornhole\",\n\t\"date\" : \"2018-07-16\",\n\t\"nbTeamsPerPool\" : 7,\n\t\"nbPlayersPerTeam\" : 2,\n\t\"isActif\" : false,\n\t\"isPublished\" : false\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Verify deleted pool",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Response empty is OK!\"] = responseBody === \"null\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/pools/{{poolId}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a tournament copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Message for deleting tournament OK!\"] = jsonData.message === \"Tournament successfully deleted\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/secured/tournaments/{{tournamentId}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tournaments",
+			"description": "",
+			"item": [
+				{
+					"name": "Get all tournaments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/tournaments",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create a tournament",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Message for tournament created OK!\"] = jsonData.message === \"Tournament created!\";",
+									"",
+									"postman.setGlobalVariable(\"tournamentId\", jsonData.object._id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/secured/tournaments",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"label\" : \"Tournoi du Flip 2001\",\n\t\"gameType\" : \"Cornhole\",\n\t\"date\" : \"2018-07-16\",\n\t\"nbTeamsPerPool\" : 7,\n\t\"nbPlayersPerTeam\" : 2,\n\t\"isActif\" : false,\n\t\"isPublished\" : false,\n\t\"createdDate\" : {{$timestamp}},\n\t\"modifiedDate\" : null\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get a tournament by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"tests[\"GameType OK!\"] = jsonData.gameType === \"Cornhole\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/tournaments/{{tournamentId}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all tournaments (filtre actif)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/tournaments?isActif=true",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all tournaments (filtre published)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/tournaments?isPublished=true",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update a tournament",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Message for updating OK!\"] = jsonData.message === \"Tournament updated\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/secured/tournaments/{{tournamentId}}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"label\" : \"Tournoi des bois\"}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Verify update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"tests[\"GameType OK!\"] = jsonData.gameType === \"Cornhole\";",
+									"tests[\"The updated title OK!\"] = jsonData.label === \"Tournoi des bois\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/tournaments/{{tournamentId}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a tournament",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Message for deleting tournament OK!\"] = jsonData.message === \"Tournament successfully deleted\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/secured/tournaments/{{tournamentId}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Verify deleted tournament",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Response empty Ok!\"] = responseBody === \"null\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/tournaments/{{tournamentId}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Check if the deleted tournament is really deleted"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

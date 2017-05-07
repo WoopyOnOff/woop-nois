@@ -1,0 +1,21 @@
+{
+  "id": "456d260c-5c44-b425-97b9-8090b71adc67",
+  "name": "Postman Globals",
+  "values": [
+    {
+      "key": "login",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "password",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "globals",
+  "_postman_exported_at": "2017-05-07T16:57:23.104Z",
+  "_postman_exported_using": "Postman/4.10.7"
+}
