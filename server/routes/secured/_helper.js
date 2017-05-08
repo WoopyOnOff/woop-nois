@@ -13,8 +13,6 @@ exports.isSecured = function(req, res, token) {
         // if everything is good, save to request for use in other routes
         console.log("Token ok");
         req.decoded = decoded;
-        res.header("Access-Control-Allow-Origin", "*");
-        //res.header("Access-Control-Allow-Origin", "*");
       }
     });
 

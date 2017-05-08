@@ -17,7 +17,7 @@ router.use(function(req, res, next) {
 
 router.route('/')
   .post(function (req, res) {
-
+    console.log('authenticate');
     var password = req.body.pwd;
 
     User.findOne({
@@ -33,6 +33,7 @@ router.route('/')
 
             var token = jwt.sign({ username : user.login}, config.secret, {
                   expiresIn: 86400 // expires in 24 hours
+                  // expiresIn: 3600 // expires in 1 hours
                 });
 
             res.json({
@@ -49,6 +50,25 @@ router.route('/')
          }
        }
    })
+});
+
+router.route('/verify')
+  .post(function (req, res) {
+    console.log('Verify token');
+    var token = req.body.token;
+    console.log('token : ' + token);
+    //TODO Use the jwt.verify()
+    var isTokenValid = jwt.verify(token, config.secret);
+    // FOR TEST
+    //isTokenValid = true;
+
+    if ( isTokenValid ) {
+      res.json({ success: true, message: 'Token valid' });
+    }
+    else {
+      res.json({ success: false, message: 'Token invalid' });
+    }
+
 });
 
 module.exports = router;

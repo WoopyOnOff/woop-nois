@@ -9,11 +9,12 @@ router.use(function (req, res, next) {
   console.log('Request on /api/secured/pools');
   console.log('Request mode : ' + req.method);
 
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, x-access-token");
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,OPTIONS,DELETE');
+
   if (req.method == 'OPTIONS') {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,OPTIONS,DELETE');
-    res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, x-access-token");
-    res.header("Access-Control-Max-Age", "1728000");
+    next();
   }
   else {
 
@@ -24,6 +25,7 @@ router.use(function (req, res, next) {
     if ( response != null) {
       return response;
     }
+    //res.header("Access-Control-Allow-Origin", "*");
   }
   next();
 });
@@ -43,8 +45,7 @@ var Pool = require('../../models/pool');
 router.route('/')
 
   .options(function(req, res) {
-    console.log('SERVER : option');
-    res.send();
+    console.log('/ : option');
   })
   // Ajout d'une poule
   .post(function (req, res) {
@@ -64,6 +65,10 @@ router.route('/')
   });
 
 router.route('/:pool_id')
+
+  .options(function(req, res) {
+    console.log('/:pool_id : option');
+  })
   .put(function(req, res) {
     console.log('SERVER : Update a pool');
     Pool.findById(req.params.pool_id)

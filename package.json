@@ -4,8 +4,9 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve && gulp && node server.js",
-    "build": "ng build && gulp && node server.js",
+    "start": "ng serve",
+    "node": "node server",
+    "build": "ng build && gulp",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

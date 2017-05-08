@@ -1,7 +1,6 @@
 <h4>
   <p class="text-center">Configuration tournoi</p>
 </h4>
-
 <form (ngSubmit)="onSubmit()" #tournoiForm="ngForm">
   <div class="row">
     <div class="col-md-3 form-group">
@@ -33,7 +32,7 @@
   <div class="row">
     <div class="col-md-3 form-group">
       <label for="date">Date</label>
-      <input type="date" class="form-control" id="date" required
+      <input type="date" class="form-control" placeholder="jj/mm/aaaa" id="datepicker" required
         [ngModel]="tournament.date | date:'yyyy-MM-dd'"
         (ngModelChange)="tournament.date = $event"
         [value]="date | date:'yyyy-MM-dd'" name="date" />

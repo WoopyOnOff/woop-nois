@@ -72,7 +72,7 @@ export class TournamentsService {
     return this.http.put(environment.hostnameServer+'/api/secured/tournaments/'+tournament._id,
         body, {headers : header} )
       .map(res => {
-        console.log("error : " + JSON.stringify(res.status));
+        console.log("Result status : " + JSON.stringify(res.status));
         res.json();})
         .catch(this.handleError);
       // .catch((error: any) => {

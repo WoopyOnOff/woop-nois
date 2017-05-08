@@ -32,6 +32,26 @@ export class AuthenticationService {
             });
     }
 
+    verifyToken(token: string) {
+      console.log('Verify the token');
+      let header = new Headers;
+      header.append('Content-Type', 'application/json');
+
+      return this.http.post(environment.hostnameServer+'/api/authenticate/verify', JSON.stringify({ token: token }),
+            { headers: header })
+          .map((response: Response) => {
+              // login successful if there's a jwt token in the response
+              let res = response.json();
+              if (res.success == true) {
+                  return true;
+              }
+              else {
+                console.log('The token is not valid');
+                return false;
+              }
+          });
+    }
+
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');

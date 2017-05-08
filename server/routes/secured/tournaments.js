@@ -12,43 +12,24 @@ router.use(function(req, res, next) {
   console.log('Request on /api/secured/tournaments');
   console.log('Request mode : ' + req.method);
 
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, x-access-token");
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,OPTIONS,DELETE');
+
   if (req.method == 'OPTIONS') {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,OPTIONS,DELETE');
-    res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, x-access-token");
-    res.header("Access-Control-Max-Age", "1728000");
     next();
   }
   else {
 
     var token =req.body.token || req.query.token || req.headers['x-access-token'];
 
+    var response = helper.isSecured(req, res, token);
     //Still not sure of the use of helper.verify() because of the next().
-    if (token) {
-
-      // verifies secret and checks exp
-      jwt.verify(token, secretIdToken, function(err, decoded) {
-        if (err) {
-          console.log("problem with token");
-          return res.status(403).json({ success: false, message: 'Failed to authenticate token.' });
-        } else {
-          // if everything is good, save to request for use in other routes
-          console.log("Token ok");
-          req.decoded = decoded;
-          res.header("Access-Control-Allow-Origin", "*");
-          next();
-        }
-      });
-
-    } else {
-      // if there is no token
-      // return an error
-      return res.status(403).send({
-          success: false,
-          message: 'No token provided.'
-      });
+    if ( response != null) {
+      return response;
     }
   }
+  next();
 });
 
 // routes ======================================================================
@@ -56,27 +37,31 @@ router.use(function(req, res, next) {
 // api ---------------------------------------------------------------------
 // get all tournamenets
 router.route('/')
-.post(function (req, res) {
 
-  console.log('SERVER : Post a tournament');
-  var tournament = new Tournament();
+  .options(function(req, res) {
+    console.log('/ : option');
+  })
 
-  tournament = Tournament.createInstance(req, tournament);
+  .post(function (req, res) {
 
-  var promise = tournament.save();
+    console.log('SERVER : Post a tournament');
+    var tournament = new Tournament();
 
-  mongoose.Promise = global.Promise;
+    tournament = Tournament.createInstance(req, tournament);
 
-  promise.then( function (tournament) {
-    res.json({ message: 'Tournament created!' , object : tournament});
+    var promise = tournament.save();
+
+    mongoose.Promise = global.Promise;
+
+    promise.then( function (tournament) {
+      return res.json({ message: 'Tournament created!' , object : tournament});
+    });
   });
-});
 
 router.route('/:tournament_id')
 
   .options(function(req, res) {
-    console.log('SERVER : option');
-    res.send();
+    console.log('/:tournament_id : option');
   })
 
   .put(function(req, res) {
@@ -111,7 +96,7 @@ router.route('/:tournament_id')
 
       tournament.save(function(err) {
         if (err) {
-          res.send(err);
+          return res.send(err);
         }
         else {
           res.json({ message: 'Tournament updated' });
