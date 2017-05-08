@@ -3,13 +3,13 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.
 
 ## Prerequisites
-You need a mongodb database.
-
+You need a mongodb database. In the users tables, add a document with the schema in /server/models/user.js
+The password must be hashed in sha256.
 You have to create a config.js in the server folder
 
 `module.exports = {
     'secret': 'yoursecret',
-    'databaseURL': 'mongodb://hostname:port/databasename',
+    'databaseURL': 'mongodb://hostname:port/databasename'
 };`
 
 ## First install

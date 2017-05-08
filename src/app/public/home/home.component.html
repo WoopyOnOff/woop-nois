@@ -8,9 +8,9 @@
     <p>
       Veuillez choisir votre tournoi
     </p>
-    <div class="game" *ngFor="let tournaments of activeTournaments">
+    <div class="game" *ngFor="let tournament of activeTournaments">
       <div class="card card-block">
-        <button>{{ tournaments.gameType }} - {{ tournaments.label }}</button>
+        <a routerLink="/selection/{{tournament._id}}"><button>{{ tournament.gameType }} - {{ tournament.label }}</button></a>
       </div>
     </div>
   </div>

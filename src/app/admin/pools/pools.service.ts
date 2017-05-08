@@ -32,10 +32,13 @@ export class PoolsService {
 
     return this.http.post(environment.hostnameServer+'/api/secured/pools/',
         body, {headers : header})
-        .map(res => res.json())
-            .subscribe(
-          (data) => console.log(data),
-          (err) => console.log(err));
+        .map(res => {
+          console.log('Response : ' + res);
+          return res.json();
+        });
+          //   .subscribe(
+          // (data) => console.log(data),
+          // (err) => console.log(err));
   }
 
   deletePool(idPool: String) {

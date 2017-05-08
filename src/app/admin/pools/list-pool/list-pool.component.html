@@ -1,6 +1,13 @@
 <h4>Configuration des poules</h4>
 <ul class="list-group">
-  <li class="list-group-item" *ngFor="let pool of pools">Poule {{ pool.poolName }} - eq : {{pool.teams.length}}/{{currentTournament.nbTeamsPerPool}} - val ?/{{currentTournament.nbTeamsPerPool}}</li>
+  <li class="list-group-item" *ngFor="let pool of pools">
+    Poule {{ pool.poolName }} - eq : {{pool.teams.length}}/{{currentTournament.nbTeamsPerPool}} - val ?/{{currentTournament.nbTeamsPerPool}}
+    <a href="" (click)="deletePool(pool._id); false">
+      <button type="button" class="btn btn-danger">
+        <span class="glyphicon glyphicon-trash"></span>
+      </button>
+    </a>
+  </li>
 </ul>
 <p class="text-center">
   <a href="" (click)="addPool(); false">

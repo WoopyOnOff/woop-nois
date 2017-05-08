@@ -24,6 +24,7 @@ import { LoginComponent } from './public/login/login.component';
 import { EditTournamentComponent } from './admin/edit-tournament/edit-tournament.component';
 import { ListPoolComponent } from './admin/pools/list-pool/list-pool.component';
 import { EditPoolComponent } from './admin/pools/edit-pool/edit-pool.component';
+import { PoolSelectionComponent } from './public/home/pool-selection/pool-selection.component';
 
 // Define the routes
 const ROUTES = [
@@ -31,6 +32,10 @@ const ROUTES = [
   {
     path: '',
     component: HomeComponent
+  },
+  {
+    path: 'selection/:id',
+    component: PoolSelectionComponent
   },
   {
     path: 'admin',
@@ -61,7 +66,8 @@ const ROUTES = [
     AdminHomeComponent,
     EditTournamentComponent,
     ListPoolComponent,
-    EditPoolComponent
+    EditPoolComponent,
+    PoolSelectionComponent
   ],
   imports: [
     BrowserModule,
