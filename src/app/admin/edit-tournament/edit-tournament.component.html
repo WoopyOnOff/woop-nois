@@ -48,7 +48,7 @@
   </div>
 
   <div class="row">
-    <div class="col-md-5 form-group">
+    <div class="col-md-3 form-group">
       <label for="nbTeamsPerPool">Nombre d'équipes / poule</label>
       <div class="input-group">
         <div class="input-group-btn">
@@ -56,17 +56,17 @@
             (click)="tournament.nbTeamsPerPool = tournament.nbTeamsPerPool - 1"
               [disabled]="tournament.nbTeamsPerPool <= 2">-</button>
         </div>
-        <input type="number" ng-min="2" min="2" class="form-control" id="nbTeamsPerPool" placeholder="{{tournament.nbTeamsPerPool}}">
+        <input type="number" ng-min="2" min="2" class="form-control" id="nbTeamsPerPool" value="{{tournament.nbTeamsPerPool}}" disabled>
         <div class="input-group-btn">
           <button class="btn btn-secondary" type="button" (click)="tournament.nbTeamsPerPool = tournament.nbTeamsPerPool + 1">+</button>
         </div>
       </div>
     </div>
-    <div class="col-md-7"></div>
+    <div class="col-md-9"></div>
   </div>
 
   <div class="row">
-    <div class="col-md-5 form-group">
+    <div class="col-md-3 form-group">
       <label for="nbPlayersPerTeam">Joueurs / équipes</label>
       <div class="input-group">
         <div class="input-group-btn">
@@ -74,13 +74,13 @@
             (click)="tournament.nbPlayersPerTeam = tournament.nbPlayersPerTeam - 1"
             [disabled]="tournament.nbPlayersPerTeam <= 1">-</button>
         </div>
-        <input type="number" min="1" id="nbPlayersPerTeam" class="form-control" placeholder="{{tournament.nbPlayersPerTeam}}">
+        <input type="number" min="1" id="nbPlayersPerTeam" class="form-control" value="{{tournament.nbPlayersPerTeam}}" disabled>
         <div class="input-group-btn">
           <button class="btn btn-secondary" type="button" (click)="tournament.nbPlayersPerTeam = tournament.nbPlayersPerTeam + 1">+</button>
         </div>
       </div>
     </div>
-    <div class="col-md-7"></div>
+    <div class="col-md-9"></div>
   </div>
   <p class="text-right">
     <button type="submit" class="btn btn-success" [disabled]="!tournoiForm.form.valid">Sauvegarder</button>
