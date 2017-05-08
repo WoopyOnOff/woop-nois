@@ -6,6 +6,10 @@ var SchemaGame = new Schema({
   poolId : Schema.Types.ObjectId, //id de la poule
   team1Id : Schema.Types.ObjectId, //id de l'equipe 1
   team2Id : Schema.Types.ObjectId, //id de l'equipe 2
-  scoreTeam1
-
+  scoreTeam1 : Number
+  scoreTeam2 : Number
+  timestamp : Date
 });
+
+// define model =================
+module.exports = mongoose.model('Game', SchemaGame);
