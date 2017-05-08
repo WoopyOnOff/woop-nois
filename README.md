@@ -2,8 +2,24 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.
 
+## Prerequisites
+You need a mongodb database.
+
+You have to create a config.js in the server folder
+
+`module.exports = {
+    'secret': 'yoursecret',
+    'databaseURL': 'mongodb://hostname:port/databasename',
+};`
+
 ## First install
 Run `yarn` or `npm install`
+
+For running the project with LiveReload, you'll need 2
+consoles :
+
+* `npm run serve`
+* `npm run node`
 
 ## Development server
 
@@ -15,7 +31,7 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
 ## Running unit tests
 
@@ -30,7 +46,7 @@ Before running the tests make sure you are serving the app via `ng serve`.
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-## Usefull doc 
+## Usefull doc
 [Authentication example](https://auth0.com/blog/angular-2-authentication/) but not free
 
 [Angular 2 JWT Authentication Example & Tutorial](http://jasonwatmore.com/post/2016/08/16/angular-2-jwt-authentication-example-tutorial)
