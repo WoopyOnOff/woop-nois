@@ -28,10 +28,12 @@
     <edit-tournament [tournament]="currentTournament"></edit-tournament>
     <div class="row" *ngIf="currentTournament._id">
       <div class="col-md-4">
-        <list-pool [tournament]="currentTournament"></list-pool>
+        <list-pool (onEmitPool)="onEmitPool($event)" [tournament]="currentTournament"></list-pool>
       </div>
       <div class="col-md-5">
-        Détail poule
+        <div class="row" *ngIf="currentPool">
+          <edit-pool [pool]="currentPool" [nbTeamsPerPool]="currentTournament.nbTeamsPerPool"></edit-pool>
+        </div>
       </div>
     </div>
 

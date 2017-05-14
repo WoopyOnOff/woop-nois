@@ -31,11 +31,11 @@
 
   <div class="row">
     <div class="col-md-3 form-group">
-      <label for="date">Date</label>
+      <label for="datepicker">Date</label>
       <input type="date" class="form-control" placeholder="jj/mm/aaaa" id="datepicker" required
         [ngModel]="tournament.date | date:'yyyy-MM-dd'"
         (ngModelChange)="tournament.date = $event"
-        [value]="date | date:'yyyy-MM-dd'" name="date" />
+        [value]="tournament.date | date:'yyyy-MM-dd'" name="date" />
     </div>
 
     <div class="col-md-6"></div>

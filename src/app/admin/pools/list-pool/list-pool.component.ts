@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import {Observable} from 'rxjs/Rx';
 import { PoolsService } from '../pools.service';
 import { TournamentsService } from '../../tournaments/index';
@@ -12,6 +12,7 @@ import { Pool, Tournament } from '../../../models/index';
 })
 export class ListPoolComponent implements OnInit {
 
+  @Output() onEmitPool = new EventEmitter<Pool>();
   pools: Array<Pool> = [];
   @Input('tournament') currentTournament: Tournament;
 
@@ -23,6 +24,14 @@ export class ListPoolComponent implements OnInit {
       this.poolsService.getAllPools(this.currentTournament._id)
         .subscribe(pools => {this.pools = pools;});
     }
+  }
+
+  onShowPool(id: String) {
+    console.log('onShowPool');
+    this.poolsService.getPool(id)
+      .subscribe(pool => {
+        this.onEmitPool.emit(pool);
+      });
   }
 
   addPool() {
@@ -57,6 +66,5 @@ export class ListPoolComponent implements OnInit {
       }
       i++;
     }
-
   }
 }

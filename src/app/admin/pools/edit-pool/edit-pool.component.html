@@ -1,3 +1,26 @@
-<p>
-  edit-pool works!
-</p>
+<div>
+  Poule sélectionnée : {{pool.poolName}}
+</div>
+<form (ngSubmit)="onSubmit()" #poolForm="ngForm">
+
+  <label for="password">Mot de passe</label>
+  <input type="text" class="form-control" id="password"
+    required [(ngModel)]="pool.pass" name="motDePasse" #pass="ngModel"/>
+  <div [hidden]="pass.valid || pass.pristine" class="alert alert-danger">
+    Le mot de passe est obligatoire
+  </div>
+  <p class="text-left">
+    <button type="submit" class="btn btn-success" [disabled]="!poolForm.form.valid">Sauvegarder</button>
+  </p>
+</form>
+
+<label>La liste des équipes :</label>
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let team of pool.teams">
+
+  </li>
+</ul>
+
+<div *ngIf="pool.teams.length < nbTeamsPerPool" class="row">
+  <!-- <edit-team [pool]="pool"></edit-team> -->
+</div>

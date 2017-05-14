@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User, Tournament } from '../../models/index';
+import { User, Tournament, Pool } from '../../models/index';
 import { TournamentsComponent } from '../tournaments/index';
 
 @Component({
@@ -11,6 +11,7 @@ export class AdminHomeComponent implements OnInit {
 
   currentUser: User;
   currentTournament: Tournament;
+  currentPool: Pool;
 
   constructor() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -26,6 +27,11 @@ export class AdminHomeComponent implements OnInit {
 
   onEmitTournament(tournament : Tournament) {
     this.currentTournament = tournament;
+  }
+
+  onEmitPool(pool: Pool) {
+    console.log('Home::onEmitPool');
+    this.currentPool = pool;
   }
 
 }

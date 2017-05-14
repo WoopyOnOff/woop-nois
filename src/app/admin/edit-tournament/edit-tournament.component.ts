@@ -15,11 +15,9 @@ export class EditTournamentComponent implements OnInit, OnDestroy {
   @Input('tournament') tournament: Tournament;
   subscription: Subscription;
 
-  constructor(private tournamentsService: TournamentsService) {
-    }
+  constructor(private tournamentsService: TournamentsService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onSubmit() {
     console.log(JSON.stringify(this.tournament));
