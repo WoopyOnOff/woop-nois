@@ -392,7 +392,7 @@
 			"description": "",
 			"item": [
 				{
-					"name": "Create a tournament copy copy",
+					"name": "Create a tournament copy",
 					"event": [
 						{
 							"listen": "test",
@@ -506,8 +506,80 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"listJoueurs\" : [\"Roger\",\"Paul\",\"Titi\",\"Satanas\"], \"isActif\" : true }"
+							"raw": "{\t\"poolId\" : \"{{poolId}}\",\n\t\"listJoueurs\" : [\"Roger\",\"Paul\",\"Titi\",\"Satanas\"],\n\t\"isActif\" : true }"
 						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all team",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/teams",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all team by pool id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Name of the pool is OK!\"] = jsonData[0].poolName === \"Z\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/teams?idPool={{poolId}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get a team by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Name of the pool is OK!\"] = jsonData.poolName === \"Z\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/teams/{{teamId}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
 						"description": ""
 					},
 					"response": []
@@ -588,7 +660,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete a tournament copy copy",
+					"name": "Delete a tournament copy",
 					"event": [
 						{
 							"listen": "test",

@@ -97,18 +97,75 @@ router.route('/:team_id')
   // Delete d'une team
   .delete(function (req, res) {
     console.log('SERVER: Delete team with id : ' + req.params.team_id);
-    Team.findById(req.query.team_id)
+    Team.findById(req.params.team_id)
       .then( function (teamFinded) {
           if (req.body.poolId != null) {
+            console.log('SERVER: req.body.poolId : ' + req.body.poolId);
             teamFinded.poolId = req.body.poolId;
           }
           if (req.body.listJoueurs != null) {
+            console.log('SERVER: req.body.listJoueurs : ' + req.body.listJoueurs);
             teamFinded.listJoueurs = req.body.listJoueurs;
           }
           if (req.body.isActif != null) {
+            console.log('SERVER: req.body.isActif : ' + req.body.isActif);
             teamFinded.isActif = req.body.isActif;
           }
+          
+          
+          /*console.log('SERVER: teamFinded.isActif : ' + teamFinded.isActif);
+          console.log('SERVER: teamFinded.listJoueurs : ' + teamFinded.listJoueurs);
+          console.log('SERVER: teamFinded.poolId : ' + teamFinded.poolId);*/
 
+
+          Pool.findById(teamFinded.poolId)
+            .then( function (pool) {
+              if (req.body.tournamentId != null) {
+                pool.tournamentId = req.body.tournamentId;
+              }
+              if (req.body.poolName != null) {
+                pool.poolName = req.body.poolName;
+              }
+              if (req.body.teams != null) {
+                pool.teams = req.body.teams;
+              }
+              if (req.body.scores != null) {
+                pool.scores = req.body.scores;
+              }
+              if (req.body.pass != null) {
+                pool.pass = req.body.pass;
+              }
+              // On enlève l'id de la team contenu dans la pool
+              
+              var newTeams = [];
+              for (var i in pool.teams) {
+                var teamEnCours = pool.teams[i];
+                console.log('teamEnCours' + teamEnCours);
+                console.log('teamFinded._id' + teamFinded._id);
+                if(teamEnCours != teamFinded.id){
+                  newTeams.push(teamEnCours);
+                }
+              }
+
+              pool.teams = newTeams;
+
+              pool.save(function(err) {
+                if (err)
+                res.send(err);
+
+                var promise = team.save();
+                mongoose.Promise = global.Promise;
+                promise.then(function (team) {
+                  res.json({ message: 'Team created!', object: team });
+                });
+              }); 
+              
+              /*var promise = pool.save();
+              mongoose.Promise = global.Promise;
+              promise.then(function (pool) {
+                res.json({ message: 'Team successfully deleted!', object: teamFinded });
+              });*/
+            });
           
           // On remove la team
           Team.remove({
@@ -125,36 +182,7 @@ router.route('/:team_id')
             else {
               
               
-              Pool.findById(teamFinded.poolId)
-              .then( function (pool) {
-                if (req.body.tournamentId != null) {
-                  pool.tournamentId = req.body.tournamentId;
-                }
-                if (req.body.poolName != null) {
-                  pool.poolName = req.body.poolName;
-                }
-                if (req.body.teams != null) {
-                  pool.teams = req.body.teams;
-                }
-                if (req.body.scores != null) {
-                  pool.scores = req.body.scores;
-                }
-                if (req.body.pass != null) {
-                  pool.pass = req.body.pass;
-                }
-                // On enlève l'id de la team contenu dans la pool
-                pool.teams = pool.teams.filter(function(teamFiltered){
-                  console.log('teamFiltered._id' + teamFiltered._id);
-                  console.log('teamFinded._id' + teamFinded._id);
-                  return (teamFiltered._id == teamFinded._id);
-                });               
-                
-                var promise = pool.save();
-                mongoose.Promise = global.Promise;
-                promise.then(function (pool) {
-                  res.json({ message: 'Team successfully deleted!', object: teamFinded });
-                });
-              });
+              
             }
           });
       });
