@@ -465,7 +465,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{ \"tournamentId\" : \"{{tournamentId}}\",\n  \"poolName\" : \"Z\",\n  \"teams\" : [\"1324324\", \"5461451\", \"6542606\"],\n  \"scores\" : [\"1324324\", \"5461451\", \"6542606\"],\n  \"url\" : \"woopy.fr/cornhole/20100716/motALaCon\"\n\n}"
+							"raw": "{ \"tournamentId\" : \"{{tournamentId}}\",\n  \"poolName\" : \"Z\",\n  \"teams\" : [],\n  \"scores\" : [\"1324324\", \"5461451\", \"6542606\"],\n  \"url\" : \"woopy.fr/cornhole/20100716/motALaCon\"\n\n}"
 						},
 						"description": ""
 					},
@@ -535,6 +535,28 @@
 					"response": []
 				},
 				{
+					"name": "Get all team by tournament id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/teams?idTournament={{tournamentId}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
 					"name": "Get all team by pool id",
 					"event": [
 						{
@@ -542,10 +564,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"tests[\"Status code is 200\"] = responseCode.code === 200;",
-									"",
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Name of the pool is OK!\"] = jsonData[0].poolName === \"Z\";"
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
 								]
 							}
 						}
@@ -567,10 +586,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"tests[\"Status code is 200\"] = responseCode.code === 200;",
-									"",
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Name of the pool is OK!\"] = jsonData.poolName === \"Z\";"
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
 								]
 							}
 						}
@@ -580,6 +596,45 @@
 						"method": "GET",
 						"header": [],
 						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update a team",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Message for updating pool OK!\"] = jsonData.message === \"Team updated\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/secured/teams/{{teamId}}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "x-access-token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"listJoueurs\" : [\"Roger\",\"Paul\",\"Titi\",\"Satanas\",\"Test\"]}"
+						},
 						"description": ""
 					},
 					"response": []
@@ -615,6 +670,29 @@
 								"description": ""
 							}
 						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Verify deleted team",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Response empty is OK!\"] = responseBody === \"null\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/teams/{{teamId}}",
+						"method": "GET",
+						"header": [],
 						"body": {},
 						"description": ""
 					},

@@ -10,6 +10,7 @@ router.use(function(req, res, next) {
 
 // define model =================
 var Team     = require('../../models/team');
+var Pool     = require('../../models/pool');
 
 // routes ======================================================================
 
@@ -36,25 +37,44 @@ router.route('/')
     {
 
       // TODO
+      var allTeamsByTournament = [];
+      var nbTeamAdded = 0;
+      var nbTotalTeam = 0
       
       Pool.find({"tournamentId" : req.query.idTournament}, function(err, pools) {
         // if there is an error retrieving, send the error. nothing after res.send(err) will execute
         if (err)
         res.send(err)
 
-        // Pour chaque pool trouvée, on retourne toutes les teams
+        for(var i = 0; i < pools.length;i++){
+          var poolEnCours = pools[i];
 
-        //res.json(pools); // return all pools in JSON format
+          for(var j = 0; j < poolEnCours.teams.length;j++){
+            var idTemaEnCours = poolEnCours.teams[j];
+
+            Team.findById(idTemaEnCours, function (err, team) {
+              if ( err ) {
+                console.log('error while getting team with id ');
+                res.send(err);
+              }
+              allTeamsByTournament.push(team);
+              nbTeamAdded++;
+
+              //console.log('nbTeamAdded = ' + nbTeamAdded);
+              //console.log('nbTotalTeam = ' + nbTotalTeam);
+              
+              if (nbTeamAdded == nbTotalTeam){
+                //console.log('-----------------------------------------allTeamsByTournament -> json---------------------------');      
+                res.json(allTeamsByTournament); // return all teams in JSON format
+              }
+              
+            });
+
+            nbTotalTeam++; 
+
+          }
+        }
       });
-      
-      
-      /*Team.find({"tournamentId" : req.query.idTournament}, function(err, teams) {
-        // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-        if (err)
-        res.send(err)
-
-        res.json(teams); // return all teams in JSON format
-      });*/
     }
     else if (req.query.idPool != null)
     {

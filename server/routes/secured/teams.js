@@ -94,29 +94,52 @@ router.route('/:team_id')
   .options(function(req, res) {
     console.log('/:team_id : option');
   })
+
+  .put(function(req, res) {
+    console.log('SERVER : Update a team');
+    Team.findById(req.params.team_id)
+    .then( function (team) {
+
+      if (req.body.poolId != null) {
+        team.poolId = req.body.poolId;
+      }
+      if (req.body.listJoueurs != null) {
+        team.listJoueurs = req.body.listJoueurs;
+      }
+      if (req.body.isActif != null) {
+        team.isActif = req.body.isActif;
+      }
+
+      // save the tournament
+      team.save(function(err) {
+        if (err) {
+          return res.send(err);
+        }
+        else {
+          var promise = team.save();
+          mongoose.Promise = global.Promise;
+          promise.then(function (team) {
+            res.json({ message: 'Team updated' });
+          });
+        }        
+      });
+    });
+  })
+
   // Delete d'une team
   .delete(function (req, res) {
     console.log('SERVER: Delete team with id : ' + req.params.team_id);
     Team.findById(req.params.team_id)
       .then( function (teamFinded) {
           if (req.body.poolId != null) {
-            console.log('SERVER: req.body.poolId : ' + req.body.poolId);
             teamFinded.poolId = req.body.poolId;
           }
           if (req.body.listJoueurs != null) {
-            console.log('SERVER: req.body.listJoueurs : ' + req.body.listJoueurs);
             teamFinded.listJoueurs = req.body.listJoueurs;
           }
           if (req.body.isActif != null) {
-            console.log('SERVER: req.body.isActif : ' + req.body.isActif);
             teamFinded.isActif = req.body.isActif;
           }
-          
-          
-          /*console.log('SERVER: teamFinded.isActif : ' + teamFinded.isActif);
-          console.log('SERVER: teamFinded.listJoueurs : ' + teamFinded.listJoueurs);
-          console.log('SERVER: teamFinded.poolId : ' + teamFinded.poolId);*/
-
 
           Pool.findById(teamFinded.poolId)
             .then( function (pool) {
@@ -136,35 +159,28 @@ router.route('/:team_id')
                 pool.pass = req.body.pass;
               }
               // On enlève l'id de la team contenu dans la pool
-              
               var newTeams = [];
-              for (var i in pool.teams) {
-                var teamEnCours = pool.teams[i];
-                console.log('teamEnCours' + teamEnCours);
-                console.log('teamFinded._id' + teamFinded._id);
-                if(teamEnCours != teamFinded.id){
-                  newTeams.push(teamEnCours);
+
+              for(var i = 0; i < pool.teams.length;i++){
+                var idTeamEnCours = pool.teams[i];
+                if(idTeamEnCours != teamFinded.id){
+                  newTeams.push(idTeamEnCours);
                 }
               }
-
               pool.teams = newTeams;
 
               pool.save(function(err) {
                 if (err)
                 res.send(err);
 
-                var promise = team.save();
+                var promise = pool.save();
                 mongoose.Promise = global.Promise;
                 promise.then(function (team) {
-                  res.json({ message: 'Team created!', object: team });
+                  console.log('Team successfully removed in the pool team list');
+                  res.json({ message: 'Team successfully removed in the pool team list!', object: team });
                 });
               }); 
-              
-              /*var promise = pool.save();
-              mongoose.Promise = global.Promise;
-              promise.then(function (pool) {
-                res.json({ message: 'Team successfully deleted!', object: teamFinded });
-              });*/
+
             });
           
           // On remove la team
@@ -173,16 +189,14 @@ router.route('/:team_id')
           }, function (err, teamRemoved) {
             if (err) {
               console.log('SERVER: Error : ' + err);
-              //res.send(err);
+              res.send(err);
             }
 
             if (teamRemoved.result.n == 0) {
               res.json({ message: 'Team doesn\'t exist' })
             }
             else {
-              
-              
-              
+              console.log('Team successfully deleted in the table Team');
             }
           });
       });
