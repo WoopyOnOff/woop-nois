@@ -91,7 +91,7 @@ router.route('/:pool_id')
         pool.pass = req.body.pass;
       }
 
-      // save the tournament
+      // save the pool
       pool.save(function(err) {
         if (err)
         res.send(err);
