@@ -29,3 +29,55 @@ router.use(function (req, res, next) {
   }
   next();
 });
+
+// define model =================
+var Game = require('../../models/game');
+var Pool = require('../../models/pool');
+var Team = require('../../models/team');
+
+// routes ======================================================================
+
+// post of a game 
+router.route('/')
+  // Ajout d'une game, a partir des id des deux equipes et de la pool
+    if ( Object.keys(req.query).length === 0) {
+      console.log('Unknown Query : ' + JSON.stringify(req.query));
+      res.status(400).send('Bad request : Unknown Query : ' + JSON.stringify(req.query));
+    } else {
+      console.log('Query : ' + JSON.stringify(req.query));
+      if (req.query.idPool != null and req.query.idTeam1 != null and req.query.idTeam2 != null)
+      {
+        Pool.findById(req.query.idPool)
+          .then( function (pool) {
+            if (req.body.poolId != null) {
+              Team.findById(req.query.idTeam1)
+                .then( function (team) {
+                  // la je suis perdu... CPA...
+                })
+
+
+              //pool.tournamentId = req.body.tournamentId;
+            }
+            
+
+            // Add Game in Mongo
+            console.log('SERVER : Post a game');
+            var game = new Game();
+
+            game = Game.createInstance(req, game);
+
+            game.save(function(err) {
+              if (err)
+              res.send(err);
+
+              var promise = game.save();
+              mongoose.Promise = global.Promise;
+              promise.then(function (game) {
+                res.json({ message: 'Game created!', object: game });
+              });
+            });            
+          });
+      }
+    }
+    
+  });
