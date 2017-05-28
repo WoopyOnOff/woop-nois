@@ -13,12 +13,14 @@ const config = require('./server/config');
 const publicTournaments = require('./server/routes/public/tournaments');
 const publicPools = require('./server/routes/public/pools');
 const publicTeams = require('./server/routes/public/teams');
+const publicGames = require('./server/routes/public/games');
 const authenticate = require('./server/routes/public/authenticate');
 
 // Get private API routes
 const privateTournaments = require('./server/routes/secured/tournaments');
 const privatePools = require('./server/routes/secured/pools');
 const privateTeams = require('./server/routes/secured/teams');
+const privateGames = require('./server/routes/secured/games');
 
 const app = express();
 
@@ -45,6 +47,9 @@ app.use('/api/authenticate', authenticate);
 
 app.use('/api/teams', publicTeams);
 app.use('/api/secured/teams', privateTeams);
+
+app.use('/api/games', publicGames);
+app.use('/api/secured/games', privateGames);
 
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
