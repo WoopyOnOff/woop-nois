@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { TournamentsComponent, TournamentsService } from './admin/tournaments/index';
 import { AdminHomeComponent } from './admin/home/home.component';
 import { PoolsService } from './admin/pools/pools.service';
+import { TeamsService } from './admin/teams/teams.service';
 
 // COMMON IMPORT
 import { AlertService, AlertComponent } from './common/alert/index';
@@ -25,6 +26,8 @@ import { EditTournamentComponent } from './admin/edit-tournament/edit-tournament
 import { ListPoolComponent } from './admin/pools/list-pool/list-pool.component';
 import { EditPoolComponent } from './admin/pools/edit-pool/edit-pool.component';
 import { PoolSelectionComponent } from './public/home/pool-selection/pool-selection.component';
+import { EditTeamComponent } from './admin/teams/edit-team/edit-team.component';
+import { TeamComponent } from './admin/teams/team/team.component';
 
 // Define the routes
 const ROUTES = [
@@ -67,7 +70,9 @@ const ROUTES = [
     EditTournamentComponent,
     ListPoolComponent,
     EditPoolComponent,
-    PoolSelectionComponent
+    PoolSelectionComponent,
+    EditTeamComponent,
+    TeamComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +84,8 @@ const ROUTES = [
     TournamentsService,
     AuthenticationService,
     AlertService,
-    PoolsService],
+    PoolsService,
+    TeamsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

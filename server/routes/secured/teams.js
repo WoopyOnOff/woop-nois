@@ -38,9 +38,13 @@ var Pool = require('../../models/pool');
 // api ---------------------------------------------------------------------
 
 router.route('/')
+
+  .options(function(req, res) {
+    console.log('/ : option');
+  })
   // Ajout d'une team dans une poule
   .post(function (req, res) {
-    
+
     if ( Object.keys(req.query).length === 0) {
       console.log('Unknown Query : ' + JSON.stringify(req.query));
       res.status(400).send('Bad request : Unknown Query : ' + JSON.stringify(req.query));
@@ -50,21 +54,22 @@ router.route('/')
       {
         Pool.findById(req.query.idPool)
           .then( function (pool) {
-            if (req.body.tournamentId != null) {
-              pool.tournamentId = req.body.tournamentId;
-            }
-            if (req.body.poolName != null) {
-              pool.poolName = req.body.poolName;
-            }
-            if (req.body.teams != null) {
-              pool.teams = req.body.teams;
-            }
-            if (req.body.scores != null) {
-              pool.scores = req.body.scores;
-            }
-            if (req.body.pass != null) {
-              pool.pass = req.body.pass;
-            }
+            ////////// Euh pourquoi ?
+            // if (req.body.tournamentId != null) {
+            //   pool.tournamentId = req.body.tournamentId;
+            // }
+            // if (req.body.poolName != null) {
+            //   pool.poolName = req.body.poolName;
+            // }
+            // if (req.body.teams != null) {
+            //   pool.teams = req.body.teams;
+            // }
+            // if (req.body.scores != null) {
+            //   pool.scores = req.body.scores;
+            // }
+            // if (req.body.pass != null) {
+            //   pool.pass = req.body.pass;
+            // }
 
             // Add Team in Mongo
             console.log('SERVER : Post a team');
@@ -73,7 +78,7 @@ router.route('/')
             team = Team.createInstance(req, team);
 
             // Add IdTeam in the pool
-            pool.teams.push(team._id);            
+            pool.teams.push(team._id);
             pool.save(function(err) {
               if (err)
               res.send(err);
@@ -83,11 +88,11 @@ router.route('/')
               promise.then(function (team) {
                 res.json({ message: 'Team created!', object: team });
               });
-            });            
+            });
           });
       }
     }
-    
+
   });
 
 router.route('/:team_id')
@@ -121,7 +126,7 @@ router.route('/:team_id')
           promise.then(function (team) {
             res.json({ message: 'Team updated' });
           });
-        }        
+        }
       });
     });
   })
@@ -179,10 +184,10 @@ router.route('/:team_id')
                   console.log('Team successfully removed in the pool team list');
                   res.json({ message: 'Team successfully removed in the pool team list!', object: team });
                 });
-              }); 
+              });
 
             });
-          
+
           // On remove la team
           Team.remove({
             _id: req.params.team_id

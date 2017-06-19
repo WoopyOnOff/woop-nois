@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import {Observable} from 'rxjs/Rx';
+
 import { PoolsService } from '../pools.service';
+import { TeamsService } from '../../teams/teams.service';
 import { TournamentsService } from '../../tournaments/index';
 import { Pool, Tournament } from '../../../models/index';
 
@@ -16,13 +18,23 @@ export class ListPoolComponent implements OnInit {
   pools: Array<Pool> = [];
   @Input('tournament') currentTournament: Tournament;
 
-  constructor(private poolsService: PoolsService, private tournamentsService: TournamentsService) { }
+  constructor(private poolsService: PoolsService,
+    private tournamentsService: TournamentsService,
+    private teamsService: TeamsService)
+  {}
 
   ngOnInit() {
 
     if (this.currentTournament != null) {
       this.poolsService.getAllPools(this.currentTournament._id)
-        .subscribe(pools => {this.pools = pools;});
+        .subscribe(pools => {this.pools = pools;
+          console.log('loop on pools : ' + this.pools.length);
+          // In progress
+          for (let pool of this.pools) {
+            this.getNbActiveTeamOnPool(pool);
+          }
+
+        });
     }
   }
 
@@ -67,4 +79,26 @@ export class ListPoolComponent implements OnInit {
       i++;
     }
   }
+
+  // In progress
+  getNbActiveTeamOnPool(pool: Pool) {
+
+    console.log("getNbActiveTeamOnPool");
+
+    pool.nbActiveTeam = 0;
+
+    this.teamsService.getTeamsFromPool(pool._id)
+      .subscribe(teams => {
+        console.log("Teams : " + JSON.stringify(teams));
+        for (let team of teams) {
+          if (team.isActif) {
+            console.log('Find an active team !!!');
+
+            pool.nbActiveTeam++;
+          }
+        }
+        console.log('nbActiveTeam : ' + pool.nbActiveTeam);
+      });
+  }
+
 }

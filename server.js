@@ -41,7 +41,7 @@ app.use('/api/tournaments', publicTournaments);
 app.use('/api/secured/tournaments/', privateTournaments);
 
 app.use('/api/pools', publicPools);
-app.use('/api/secured/pools', privatePools);
+app.use('/api/secured/pools/', privatePools);
 
 app.use('/api/authenticate', authenticate);
 

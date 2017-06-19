@@ -6,8 +6,8 @@
         <span class="glyphicon glyphicon-pencil"></span>Poule {{ pool.poolName }}
       </button>
     </a>
-     - eq : {{pool.teams.length}}/{{currentTournament.nbTeamsPerPool}} - val ?/{{currentTournament.nbTeamsPerPool}}
-    <a href="" (click)="deletePool(pool._id); false">
+     - eq : {{pool.teams.length}}/{{currentTournament.nbTeamsPerPool}} - val {{pool.nbActiveTeam}}/{{currentTournament.nbTeamsPerPool}}
+    <a href="" *ngIf="pool.teams.length == 0" (click)="deletePool(pool._id); false">
       <button type="button" class="btn btn-danger">
         <span class="glyphicon glyphicon-trash"></span>
       </button>

@@ -6,8 +6,12 @@ export class Pool {
   scores : string[]; // liste des scores
   pass : string; // Passe
 
+  // In progress
+  nbActiveTeam : number = 0;
+
   constructor() {
     this.teams = [];
     this.scores = [];
+    this.nbActiveTeam = 0;
   }
 }

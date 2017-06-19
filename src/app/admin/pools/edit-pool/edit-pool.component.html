@@ -16,11 +16,11 @@
 
 <label>La liste des équipes :</label>
 <ul class="list-group">
-  <li class="list-group-item" *ngFor="let team of pool.teams">
-
+  <li class="list-group-item" *ngFor="let teamId of pool.teams">
+    <team [teamId]="teamId"></team>
   </li>
 </ul>
 
 <div *ngIf="pool.teams.length < nbTeamsPerPool" class="row">
-  <!-- <edit-team [pool]="pool"></edit-team> -->
+  <edit-team [pool]="pool"></edit-team>
 </div>

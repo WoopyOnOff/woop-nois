@@ -30,7 +30,7 @@
       <div class="col-md-4">
         <list-pool (onEmitPool)="onEmitPool($event)" [tournament]="currentTournament"></list-pool>
       </div>
-      <div class="col-md-5">
+      <div class="col-md-7">
         <div class="row" *ngIf="currentPool">
           <edit-pool [pool]="currentPool" [nbTeamsPerPool]="currentTournament.nbTeamsPerPool"></edit-pool>
         </div>

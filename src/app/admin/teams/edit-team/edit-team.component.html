@@ -1,0 +1,26 @@
+<!-- <form (ngSubmit)="onSubmit()" #teamForm="ngForm"> -->
+  <div class="col-md-12 form-group">
+    <div class="row">
+      <div class="col-md-5 form-group">
+        <label for="joueur1">Joueur 1</label>
+        <input id="joueur1" type="text" [(ngModel)]="currentTeam.listJoueurs[0]"/>
+      </div>
+      <div class="col-md-5 form-group">
+        <label for="joueur2">Joueur 2</label>
+        <input id="joueur2" type="text" [(ngModel)]="currentTeam.listJoueurs[1]"/>
+      </div>
+      <div class="col-md-2 form-group">
+        <label for="chkIsActif">Validé</label>
+        <input type="checkbox" id="chkIsActif" value="isActif" [(ngModel)]="currentTeam.isActif"/>
+      </div>
+    </div>
+  </div>
+
+  <p class="text-center">
+    <a href="" (click)="addTeam(); false">
+      <button type="button" id="addTeam" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Team
+      </button>
+    </a>
+  </p>
+<!-- </form> -->

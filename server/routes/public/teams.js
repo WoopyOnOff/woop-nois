@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const router = express.Router();
 
 router.use(function(req, res, next) {
-  console.log('Request on /api/pool');
+  console.log('Request on /api/teams');
   res.header("Access-Control-Allow-Origin", "*");
   next();
 })
@@ -40,7 +40,7 @@ router.route('/')
       var allTeamsByTournament = [];
       var nbTeamAdded = 0;
       var nbTotalTeam = 0
-      
+
       Pool.find({"tournamentId" : req.query.idTournament}, function(err, pools) {
         // if there is an error retrieving, send the error. nothing after res.send(err) will execute
         if (err)
@@ -62,15 +62,15 @@ router.route('/')
 
               //console.log('nbTeamAdded = ' + nbTeamAdded);
               //console.log('nbTotalTeam = ' + nbTotalTeam);
-              
+
               if (nbTeamAdded == nbTotalTeam){
-                //console.log('-----------------------------------------allTeamsByTournament -> json---------------------------');      
+                //console.log('-----------------------------------------allTeamsByTournament -> json---------------------------');
                 res.json(allTeamsByTournament); // return all teams in JSON format
               }
-              
+
             });
 
-            nbTotalTeam++; 
+            nbTotalTeam++;
 
           }
         }
@@ -96,13 +96,16 @@ router.route('/')
 
 router.route('/:team_id')
 .get(function(req, res) {
-  console.log('SERVER : Get a team');
+  console.log('SERVER : Get a team : ' + req.params.team_id);
   Team.findById(req.params.team_id, function (err, team) {
     if ( err ) {
       console.log('error while getting team with id ');
       res.send(err);
     }
-    res.json(team);
+    else {
+      console.log('Get team : ' + JSON.stringify(team));
+      res.json(team);
+    }
   })
 });
 

@@ -1,0 +1,9 @@
+<div>
+  <label *ngFor="let joueur of currentTeam.listJoueurs; let i = index" class="nomJoueur">Joueur {{i+1}} : {{joueur}}</label>
+  <label for="chkIsActif">Validé</label>
+  <input type="checkbox" disabled id="chkIsActif" name="isActif" *ngIf="currentTeam.isActif" checked="checked"/>
+  <input type="checkbox" disabled id="chkIsActif" name="isActif" *ngIf="!currentTeam.isActif"/>
+  <button class="btn btn-secondary" type="button"
+    (click)="deleteTeam()"
+    *ngIf="!currentTeam.isActif">Delete Team</button>
+</div>

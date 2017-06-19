@@ -73,6 +73,22 @@ export class PoolsService {
         (err) => console.log(err));
   }
 
+  removeTeamFromPool(idTeamToDelete: String, idPool: String) {
+
+    this.getPool(idPool)
+    .subscribe(pool => {
+
+      let i:number = 0;
+      for (let teamId of pool.teams) {
+        if ( teamId == idTeamToDelete) {
+          pool.teams.splice(i, 1);
+        }
+        i++;
+      }
+    });
+
+  }
+
   private handleError(error:any) {
       console.error(error);
       return Observable.throw(error);
