@@ -7,20 +7,20 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const pkgJson = require('./package.json');
 const jwt    = require('jsonwebtoken');
-const config = require('./server/config');
+const config = require('./config');
 
 // Get public API routes
-const publicTournaments = require('./server/routes/public/tournaments');
-const publicPools = require('./server/routes/public/pools');
-const publicTeams = require('./server/routes/public/teams');
-const publicGames = require('./server/routes/public/games');
-const authenticate = require('./server/routes/public/authenticate');
+const publicTournaments = require('./routes/public/tournaments');
+const publicPools = require('./routes/public/pools');
+const publicTeams = require('./routes/public/teams');
+const publicGames = require('./routes/public/games');
+const authenticate = require('./routes/public/authenticate');
 
 // Get private API routes
-const privateTournaments = require('./server/routes/secured/tournaments');
-const privatePools = require('./server/routes/secured/pools');
-const privateTeams = require('./server/routes/secured/teams');
-const privateGames = require('./server/routes/secured/games');
+const privateTournaments = require('./routes/secured/tournaments');
+const privatePools = require('./routes/secured/pools');
+const privateTeams = require('./routes/secured/teams');
+const privateGames = require('./routes/secured/games');
 
 const app = express();
 
@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Point static path to dist
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, '../dist')));
 
 // Set our api routes
 app.use('/api/tournaments', publicTournaments);
@@ -53,7 +53,7 @@ app.use('/api/secured/games', privateGames);
 
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/index.html'));
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 /* GET api listing. */
