@@ -3,18 +3,26 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.
 
 ## Prerequisites
-You need a mongodb database. In the users tables, add a document with the schema in /server/models/user.js
-The password must be hashed in sha256.
+
 You have to create a config.js in the server folder
 
 `module.exports = {
     'secret': 'yoursecret',
     'databaseURL': 'mongodb://hostname:port/databasename'
-};`
+};
+`
+
+You need docker and docker-compose to build and run the project.
+
+When the mongo container is started, create a database and add a document with the schema in /server/models/user.js
+The password must be hashed in sha256 and in lowercase
+
 
 ## First install
-Run `yarn` or `npm install`
+Run `docker-compose up`
 
+
+## For Development
 For running the project with LiveReload, you'll need 2
 consoles :
 
